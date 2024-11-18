@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header fw-semibold">Contatos</div>
+
+<div class="row mt-4">
+    <!-- Cartão "Deve para mim" -->
+    <div class="col-md-6">
+        <div class="card text-center border-0 shadow-sm">
+            <div class="card-body" style="padding: 10px;">
+                <h5 class="card-title text-muted"><i class="bi bi-person-fill-add"></i> Deve para mim</h5>
+                <p class="card-text text-success fs-4">R$0,00</p>
+            </div>
+        </div>
+    </div>
+    <!-- Cartão "Eu devo" -->
+    <div class="col-md-6">
+        <div class="card text-center border-0 shadow-sm">
+            <div class="card-body" style="padding: 10px;">
+                <h5 class="card-title text-muted"><i class="bi bi-person-dash-fill"></i> Eu devo</h5>
+                <p class="card-text text-danger fs-4">R$70,00</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Botoes-->
+<div class="btn-group" role="group" aria-label="Grupo de Botões">
+    <button type="button" class="btn btn-custom active">Todos</button>
+    <button type="button" class="btn btn-custom">Associados</button>
+    <button type="button" class="btn btn-custom">Cliente</button>
+    <button type="button" class="btn btn-custom">Colaborador</button>
+    <button type="button" class="btn btn-custom">Fornecedor</button>
+    <button type="button" class="btn btn-custom">Sócio</button>
+    <button type="button" class="btn btn-custom">Outro</button>
+</div>
+
+<!-- Tabela de Transações -->
+<div class="transaction-table mt-4">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF/CNPJ</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Atualizado em</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

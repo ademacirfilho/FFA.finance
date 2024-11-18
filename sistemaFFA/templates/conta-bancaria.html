@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="header fw-semibold">Conta Bancária</div>
+
+<!-- Tabela de Transações -->
+<div class="transaction-table mt-4">
+    <table class="table-custom table-hover">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Principal?</th>
+            <th>Saldo inicial</th>
+            <th>Saldo Atual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conta Principal</td>
+            <td>Sim</td>
+            <td class="saldo-positivo">R$0,00</td>
+            <td class="saldo-positivo">R$0,00</td>
+          </tr>
+          <tr>
+            <td>Carteira</td>
+            <td>Não</td>
+            <td class="saldo-positivo">R$0,00</td>
+            <td class="saldo-positivo">R$0,00</td>
+          </tr>
+          <!-- Ajuste para alinhar o "Total" à direita -->
+          <tr>
+            <td colspan="3" style="text-align: right; font-weight: bold;">Total</td>
+            <td class="saldo-positivo">R$0,00</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+{% endblock content %}

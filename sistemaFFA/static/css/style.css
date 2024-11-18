@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #f7f7f7;
+    font-family: "Montserrat", sans-serif;
+}
+.sidebar {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #5c2ad1, #8338ec);
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.sidebar .tag-a{
+    font-size: 16px;
+    margin-bottom: 0;
+    display: block;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.avatar img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar a.active {
+    background-color: white;
+    color: #5c2ad1;
+}
+
+.sidebar .text-light {
+    font-size: 14px;
+}
+
+.sidebar i {
+    margin-right: 10px;
+}
+
+.header {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+.card{
+    margin: 12px;
+    justify-content: center;
+}
+
+.transaction-table {
+    margin-top: 30px;
+}
+
+.transaction-table th, .transaction-table td {
+    font-size: 16px;
+}
+
+.total {
+    font-size: 28px;
+}
+
+
+.sidebar-content {
+    flex-grow: 1;
+}
+
+.sidebar a.text-light {
+text-align: center;
+}
+
+.sidebar a.text-light:hover {
+background-color: red;
+color: white;
+}
+
+/*conta bancaria */
+.saldo-positivo {
+    color: purple;
+    font-weight: 500;
+}
+
+/* Estilização da tabela */
+.table-custom {
+    border-collapse: separate;
+    border-spacing: 0; /* Remove espaços entre as células */
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: .5px solid;
+    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+.table-custom thead {
+    background-color: transparent;
+}
+
+/* Estilo de cabeçalho da tabela */
+.table-custom th {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Estilo das células da tabela */
+.table-custom td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: left;
+}
+
+/* Última linha sem borda inferior */
+.table-custom tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Bordas arredondadas nos cantos da tabela */
+.table-custom thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.table-custom thead th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.table-custom tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.table-custom tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+/* Centralizar o texto nas células */
+.table-custom td, .table-custom th {
+    text-align: center;
+}
+
+/*contatos */
+.card {
+    background-color: #f8f9fa; /* Cor de fundo clara */
+    border-radius: 12px; /* Arredondar bordas */
+    padding: 15px;
+}
+
+.card-text {
+    font-weight: bold;
+}
+
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Leve sombra */
+}
+
+.btn-custom {
+    background-color: #f1f1f1;
+    border-radius: 25px;
+    color: black;
+    margin: 30px 0 10px 0;
+    padding: 10px 30px;
+}
+
+.btn-custom.active {
+    background: linear-gradient(180deg, #5c2ad1, #8338ec);
+    color: white;
+}
+
+/* transacoes */
+.text-end{
+    margin-bottom: 0;
+}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Totais -->
+<div class="row mt-4">
+    <!-- Cartão "Deve para mim" -->
+    <div class="col-md-6">
+        <div class="card text-bg-success border-0 shadow-sm">
+            <div class="card-body" style="padding: 20px;">
+                <h5 class="card-title">Entrada Total <i class="bi bi-cash"></i></h5>
+                <p class="card-text">R$0,00</p>
+            </div>
+        </div>
+    </div>
+    <!-- Cartão "Eu devo" -->
+    <div class="col-md-6">
+        <div class="card text-bg-danger border-0 shadow-sm">
+            <div class="card-body" style="padding: 20px;">
+                <h5 class="card-title">Saida Total <i class="bi bi-x-square"></i></h5>
+                <p class="card-text">R$70,00</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Tabela de Transações -->
+<div class="transaction-table mt-4">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Ultimas transações <i class="bi bi-cash-coin"></i></th>
+                <th>Descrição</th>
+                <th>Pago a</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Tipo pagamento</th>
+                <th>Pago?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>academia</td>
+                <td>mensalidade...</td>
+                <td>Arena</td>
+                <td>Academia</td>
+                <td>R$70,00</td>
+                <td>À vista</td>
+                <td><input type="checkbox" checked disabled></td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>academia</td>
+                <td>mensalidade...</td>
+                <td>Arena</td>
+                <td>Academia</td>
+                <td>R$70,00</td>
+                <td>À vista</td>
+                <td><input type="checkbox" checked disabled></td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>academia</td>
+                <td>mensalidade...</td>
+                <td>Arena</td>
+                <td>Academia</td>
+                <td>R$70,00</td>
+                <td>À vista</td>
+                <td><input type="checkbox" checked disabled></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
