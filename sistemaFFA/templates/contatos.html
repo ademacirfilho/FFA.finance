@@ -2,63 +2,101 @@
 {% load static %}
 
 {% block content %}
+    <div class="container mt-4">
+        <div class="header fw-semibold">Contatos</div>
 
-<div class="header fw-semibold">Contatos</div>
-
-<div class="row mt-4">
-    <!-- Cartão "Deve para mim" -->
-    <div class="col-md-6">
-        <div class="card text-center border-0 shadow-sm">
-            <div class="card-body" style="padding: 10px;">
-                <h5 class="card-title text-muted"><i class="bi bi-person-fill-add"></i> Deve para mim</h5>
-                <p class="card-text text-success fs-4">R$0,00</p>
+        <div class="row mt-4">
+            <!-- Cartão "Deve para mim" -->
+            <div class="col-md-6">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body" style="padding: 10px;">
+                        <h5 class="card-title text-muted"><i class="bi bi-person-fill-add"></i> Deve para mim</h5>
+                        <p class="card-text text-success fs-4">R$0,00</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Cartão "Eu devo" -->
+            <div class="col-md-6">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body" style="padding: 10px;">
+                        <h5 class="card-title text-muted"><i class="bi bi-person-dash-fill"></i> Eu devo</h5>
+                        <p class="card-text text-danger fs-4">R$70,00</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Cartão "Eu devo" -->
-    <div class="col-md-6">
-        <div class="card text-center border-0 shadow-sm">
-            <div class="card-body" style="padding: 10px;">
-                <h5 class="card-title text-muted"><i class="bi bi-person-dash-fill"></i> Eu devo</h5>
-                <p class="card-text text-danger fs-4">R$70,00</p>
-            </div>
+
+        <!-- Botões -->
+        <div class="btn-group mt-3" role="group" aria-label="Grupo de Botões">
+            <button type="button" class="btn btn-custom active">Todos</button>
+            <button type="button" class="btn btn-custom">Associados</button>
+            <button type="button" class="btn btn-custom">Cliente</button>
+            <button type="button" class="btn btn-custom">Colaborador</button>
+            <button type="button" class="btn btn-custom">Fornecedor</button>
+            <button type="button" class="btn btn-custom">Sócio</button>
+            <button type="button" class="btn btn-custom">Outro</button>
+        </div>
+
+        <!-- Botão para abrir a barra lateral -->
+        <div class="mt-4">
+            <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContato">
+                Novo Contato
+            </button>
+        </div>
+
+        <!-- Tabela de Transações -->
+        <div class="transaction-table mt-4">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF/CNPJ</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Atualizado em</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
 
-<!--Botoes-->
-<div class="btn-group" role="group" aria-label="Grupo de Botões">
-    <button type="button" class="btn btn-custom active">Todos</button>
-    <button type="button" class="btn btn-custom">Associados</button>
-    <button type="button" class="btn btn-custom">Cliente</button>
-    <button type="button" class="btn btn-custom">Colaborador</button>
-    <button type="button" class="btn btn-custom">Fornecedor</button>
-    <button type="button" class="btn btn-custom">Sócio</button>
-    <button type="button" class="btn btn-custom">Outro</button>
-</div>
+    <!-- Barra lateral (offcanvas) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContato" aria-labelledby="offcanvasContatoLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasContatoLabel">Novo Contato</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form>
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" placeholder="Nome do contato" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cpf" class="form-label">CPF/CNPJ</label>
+                    <input type="text" class="form-control" id="cpf" placeholder="Digite o CPF/CNPJ">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email do contato">
+                </div>
+                <div class="mb-3">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="telefone" placeholder="Telefone">
+                </div>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </form>
+        </div>
+    </div>
 
-<!-- Tabela de Transações -->
-<div class="transaction-table mt-4">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>CPF/CNPJ</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Atualizado em</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock content %}

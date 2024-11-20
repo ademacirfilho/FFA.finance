@@ -2,16 +2,99 @@
 {% load static %}
 
 {% block content %}
+    <div class="container mt-4">
+        <div class="header fw-semibold">Categorias</div>
 
-<div class="header fw-semibold">Categorias</div>
+        <!-- Cartões informativos -->
+        <div class="row mt-4">
+            <!-- Cartão "Categorias Ativas" -->
+            <div class="col-md-6">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body" style="padding: 10px;">
+                        <h5 class="card-title text-muted"><i class="bi bi-tags-fill"></i> Categorias Ativas</h5>
+                        <p class="card-text text-success fs-4">15</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Cartão "Categorias Inativas" -->
+            <div class="col-md-6">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body" style="padding: 10px;">
+                        <h5 class="card-title text-muted"><i class="bi bi-tag"></i> Categorias Inativas</h5>
+                        <p class="card-text text-danger fs-4">3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!--Botoes-->
-<div class="btn-group" role="group" aria-label="Grupo de Botões">
-    <button type="button" class="btn btn-custom active">Todos</button>
-    <button type="button" class="btn btn-custom">Fixas</button>
-    <button type="button" class="btn btn-custom">Variaveis</button>
-    <button type="button" class="btn btn-custom">Impostos</button>
-    <button type="button" class="btn btn-custom">Rendimentos</button>
-</div>
+        <!-- Botões de filtro -->
+        <div class="btn-group mt-4" role="group" aria-label="Grupo de Botões">
+            <button type="button" class="btn btn-custom active">Todos</button>
+            <button type="button" class="btn btn-custom">Ativas</button>
+            <button type="button" class="btn btn-custom">Inativas</button>
+            <button type="button" class="btn btn-custom">Recorrentes</button>
+            <button type="button" class="btn btn-custom">Temporárias</button>
+        </div>
 
+        <!-- Tabela de Categorias -->
+        <div class="transaction-table mt-4">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Descrição</th>
+                        <th>Status</th>
+                        <th>Atualizado em</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alimentação</td>
+                        <td>Gastos com comida e restaurantes</td>
+                        <td>Ativa</td>
+                        <td>20/11/2024</td>
+                    </tr>
+                    <tr>
+                        <td>Transporte</td>
+                        <td>Despesas com transporte público e combustível</td>
+                        <td>Ativa</td>
+                        <td>19/11/2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botão para abrir barra lateral -->
+        <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias" aria-controls="offcanvasCategorias">
+            <i class="bi bi-plus-lg"></i> Nova Categoria
+        </button>
+
+        <!-- Barra lateral de nova categoria -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCategorias" aria-labelledby="offcanvasCategoriasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasCategoriasLabel">Nova Categoria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="categoriaNome" class="form-label">Nome da Categoria</label>
+                        <input type="text" class="form-control" id="categoriaNome" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoriaDescricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="categoriaDescricao" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoriaStatus" class="form-label">Status</label>
+                        <select class="form-select" id="categoriaStatus">
+                            <option value="Ativa">Ativa</option>
+                            <option value="Inativa">Inativa</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
