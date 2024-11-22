@@ -2,8 +2,13 @@
 {% load static %}
 
 {% block content %}
-
 <div class="header fw-semibold">Conta Bancária</div>
+
+<div class="mt-2 text-end">
+  <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContaBacaria" aria-controls="offcanvasCategorias">
+      <i class="bi bi-plus-lg"></i> Nova Conta Bancária
+  </button>
+</div>
 
 <!-- Tabela de Transações -->
 <div class="transaction-table mt-4">
@@ -38,4 +43,53 @@
       </table>
 </div>
 
+<!-- Barra lateral de nova categoria -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContaBacaria" aria-labelledby="offcanvasContaBacariaLabel">
+  <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasCategoriasLabel">Nova Conta Bancária</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+      <form>
+          <div class="mb-3">
+              <label for="contaBancariaNome" class="form-label">Nome</label>
+              <input type="text" class="form-control" id="contaBancariaNome" required>
+          </div>
+          <div class="mb-3">
+              <label for="contaBancaria" class="form-label">Pago a</label>
+              <select class="form-select" id="contaBancaria">
+                  <option value="Ativa">Conta Corrente</option>
+                  <option value="Inativa">Poupança</option>
+                  <option value="Inativa">Conta salário</option>
+                  <option value="Inativa">Conta Investimento</option>
+                  <option value="Inativa">Caixa</option>
+                  <option value="Inativa">Carteira</option>
+                  <option value="Inativa">Outros</option>
+              </select>
+          </div>
+          <div class="mb-3">
+              <label for="contaBancariaBanco" class="form-label">Banco</label>
+              <select class="form-select" id="contaBancariaBanco">
+                  <option value="Ativa">X</option>
+                  <option value="Inativa">X</option>
+                  <option value="Inativa">X</option>
+                  <option value="Inativa">X</option>
+              </select>
+          </div>
+          <div class="mb-3">
+            <label for="contaBancariAgen" class="form-label">Agencia da Conta</label>
+            <input type="text" class="form-control" id="contaBancariAgen">
+          </div>
+          <div class="mb-3">
+            <label for="contaBancariaNum" class="form-label">Número da conta</label>
+            <input type="text" class="form-control" id="contaBancariaNum">
+          </div>
+          <div class="mb-3">
+            <label for="contaBancariaSaldo" class="form-label">Saldo Inicial</label>
+            <input type="number" step="0.01" class="form-control" id="contaBancariaSaldo">
+          </div>
+          <button type="submit" class="btn btn-success">Salvar</button>
+      </form>
+  </div>
+</div>
 {% endblock content %}
