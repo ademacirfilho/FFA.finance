@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block content %}
-
-<div class="container-fluid mt-4">
     <div class="row">
         <div class="col-12 header">
             Transações
@@ -37,6 +35,12 @@
                 <button type="button" class="btn btn-custom">Sócio</button>
                 <button type="button" class="btn btn-custom">Outro</button>
             </div>
+
+            <div class="mt-4">
+                <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias" aria-controls="offcanvasCategorias">
+                    <i class="bi bi-plus-lg"></i> Nova Transação
+                </button>
+            </div>
         </div>
         <div class="col-md-4 text-end">
             <h4>Saldo atual</h4>
@@ -68,15 +72,7 @@
                     <td><input type="checkbox" checked disabled></td>
                 </tr>
             </tbody>
-            <tbody>
-                <tr>
-                    <td colspan="7" class="text-center text-primary">
-                        <button type="button" class="btn btn-outline-dark">Nova Transação <i class="bi bi-plus-lg"></i></button>
-                    </td>
-                </tr>
-            </tbody>
         </table>
-    </div>
 <!--    <div class="row">
         <div class="col-12">
             <div class="table-responsive">

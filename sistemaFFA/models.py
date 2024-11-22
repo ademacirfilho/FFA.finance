@@ -9,8 +9,7 @@ class Transacao(models.Model):
 
 class Contato(models.Model):
    nome = models.CharField(max_length=100) 
-   cpf = models.CharField(max_length=14, blank=True)
-   cnpj = models.CharField(max_length=18, blank=True)
+   cpf_cnpj = models.CharField(max_length=18, blank=True)
    email = models.EmailField(blank=True)
    telefone = models.CharField(max_length=12) 
    data = models.DateField()
