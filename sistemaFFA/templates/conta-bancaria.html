@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="header fw-semibold">Conta Bancária</div>
+{% block head %}<div class="header fw-semibold">Conta Bancária</div>{% endblock head %}
 
+{% block content %}
 <div class="mt-2 text-end">
   <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContaBacaria" aria-controls="offcanvasCategorias">
       <i class="bi bi-plus-lg"></i> Nova Conta Bancária

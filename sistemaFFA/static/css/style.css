@@ -110,7 +110,6 @@ color: white;
     border-spacing: 0; /* Remove espaços entre as células */
     width: 100%;
     border-radius: 10px;
-    overflow: hidden;
     border: .5px solid;
     /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
 }
