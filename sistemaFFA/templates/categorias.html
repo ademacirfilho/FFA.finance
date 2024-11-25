@@ -24,24 +24,19 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>CPF/CNPJ</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Atualizado em</th>
+                <th style="width: 50%;">Nome</th>
+                <th style="width: 25%;" class="text-end">Tipo</th>
+                <th style="width: 25%;" class="text-end">Atualizado em</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
+            {% for categoria in categorias %}
             <tr>
-                <td>Alimentação</td>
-                <td>Fixa</td>
-                <td>122.122.122-33</td>
-                <td>finance@gmail.com</td>
-                <td>8499999999</td>
-                <td>20/11/2024</td>
+                <td>{{ categoria.nome }}</td>
+                <td class="text-end">{{ categoria.tipo }}</td>
+                <td class="text-end">{{ categoria.data }}</td>
                 <td>
                     <td>
                         <div class="dropdown">
@@ -56,6 +51,7 @@
                     </td>
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
@@ -76,23 +72,11 @@
             <div class="mb-3">
                 <label for="categoriaStatus" class="form-label">Tipo da Categoria</label>
                 <select class="form-select" id="categoriaStatus">
-                    <option value="Ativa">Fixa</option>
-                    <option value="Inativa">Variavél</option>
-                    <option value="Inativa">Imposto</option>
-                    <option value="Inativa">Rendimento</option>
+                    <option value="" selected>-- Selecione uma opção --</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria.tipo }}">{{ categoria.tipo }}</option>
+                    {% endfor %}
                 </select>
-            </div>
-            <div class="mb-3">
-                <label for="cpf-cnpj" class="form-label">CPF/CNPJ</label>
-                <input type="text" class="form-control" id="cpf-cnpj" name="cpf-cnpj" maxlength="18" oninput="formatCpfCnpj(this)">
-            </div>
-            <div class="mb-3">
-                <label for="categoriaEmail" class="form-label">Email</label>
-                <input type="text" class="form-control" id="categoriaEmail" required>
-            </div>
-            <div class="mb-3">
-                <label for="categoriaTelefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="categoriaTelefone">
             </div>
             <button type="submit" class="btn btn-success">Salvar</button>
         </form>

@@ -101,19 +101,19 @@
         <div class="mb-3">
             <label for="categoriaStatus" class="form-label">Pago a</label>
             <select class="form-select" id="categoriaStatus">
-                <option value="Ativa">X</option>
-                <option value="Inativa">X</option>
-                <option value="Inativa">X</option>
-                <option value="Inativa">X</option>
+                <option value="" selected>-- Selecione uma opção --</option>
+                {% for transacao in transacoes %}
+                <option value="{{ transacao.contatoNome }}">{{ transacao.contatoNome }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="mb-3">
             <label for="categoriaStatus" class="form-label">Categoria</label>
             <select class="form-select" id="categoriaStatus">
-                <option value="Ativa">X</option>
-                <option value="Inativa">X</option>
-                <option value="Inativa">X</option>
-                <option value="Inativa">X</option>
+                <option value="" selected>-- Selecione uma opção --</option>
+                {% for transacao in transacoes %}
+                <option value="{{ transacao.categoriaNome }}">{{ transacao.categoriaNome }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="mb-3">
@@ -123,9 +123,10 @@
         <div class="mb-3">
             <label for="categoriaStatus" class="form-label">Tipo de Pagamento</label>
             <select class="form-select" id="categoriaStatus">
-                <option value="Ativa">A vista</option>
-                <option value="Inativa">Parcelado</option>
-                <option value="Inativa">Recorrente</option> 
+                <option value="" selected>-- Selecione uma opção --</option>
+                {% for transacao in transacoes %}
+                <option value="{{ transacao.tipoPagamento }}">{{ transacao.tipoPagamento }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="mb-3">

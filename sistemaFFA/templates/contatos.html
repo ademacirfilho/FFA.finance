@@ -48,37 +48,57 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>CPF/CNPJ</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Atualizado em</th>
-                <th></th>
+                <th style="width: 20%;">Nome</th>
+                <th style="width: 20%;">CPF/CNPJ</th>
+                <th style="width: 20%;">Email</th>
+                <th style="width: 20%;">Telefone</th>
+                <th style="width: 15%;" class="text-end">Atualizado em</th>
+                <th style="width: 5%;"></th>
             </tr>
         </thead>
         <tbody>
+            {% for contato in contatos %}
             <tr>
-                <td>Finance</td>
-                <td>78567384587</td>
-                <td>finance@gmail.com</td>
-                <td>8499999999</td>
-                <td>10/11/2024</td>
+                <td>{{ contato.nome }}</td>
+                <td>
+                    {% if contato.cpf_cnpj %}
+                    {{ contato.cpf_cnpj }}
+                    {% else %}
+                    Nao informado
+                    {% endif %}
+                </td>
+                <td>
+                    {% if contato.email %}
+                    {{ contato.email }}
+                    {% else %}
+                    Nao informado
+                    {% endif %}
+                </td>
+                <td>
+                    {% if contato.telefone %}
+                    {{ contato.telefone }}
+                    {% else %}
+                    Nao informado
+                    {% endif %}
+                </td>
+                <td class="text-end">{{ contato.data }}</td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-
                             <li><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></li>
                             <li><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></li>
                         </ul>
                     </div>                    
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
+
 
 <!-- Barra lateral (offcanvas) -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContato" aria-labelledby="offcanvasContatoLabel">
@@ -91,17 +111,6 @@
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="nome" required>
-            </div>
-            <div class="mb-3">
-                <label for="contatosTipos" class="form-label">Tipo da Categoria</label>
-                <select class="form-select" id="categoriaStatus">
-                    <option value="Ativa">Associados</option>
-                    <option value="Inativa">Cliente</option>
-                    <option value="Inativa">Colaborador</option>
-                    <option value="Inativa">Fornecedor</option>
-                    <option value="Inativa">Sócio</option>
-                    <option value="Inativa">Outro</option>
-                </select>
             </div>
             <div class="mb-3">
                 <label for="cpf-cnpj" class="form-label">CPF/CNPJ</label>

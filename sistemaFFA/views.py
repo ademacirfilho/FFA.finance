@@ -18,10 +18,17 @@ def transacoes(request):
     return render(request, "transacoes.html", context)
 
 def categorias(request):
-    return render(request, "categorias.html")
+    context = {
+        "categorias": Categoria.objects.all()
+    }
+
+    return render(request, "categorias.html", context)
+
+def contatos(request):
+    context = {
+        "contatos": Contato.objects.all()
+    }
+    return render(request, "contatos.html", context)
 
 def conta_bancaria(request):
     return render(request, "conta-bancaria.html")
-
-def contatos(request):
-    return render(request, "contatos.html")

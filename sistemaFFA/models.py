@@ -11,7 +11,7 @@ class Contato(models.Model):
    nome = models.CharField(max_length=100) 
    cpf_cnpj = models.CharField(max_length=18, blank=True)
    email = models.EmailField(blank=True)
-   telefone = models.CharField(max_length=12) 
+   telefone = models.CharField(max_length=12, blank=True) 
    data = models.DateField()
 
    def __str__(self):
