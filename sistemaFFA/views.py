@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Transacao, Contato, Categoria, ContaBancaria, Pagamento, TipoCategoria, Conta
 
 def base(request):
     return render(request, "base.html")
@@ -10,7 +11,11 @@ def usuario(request):
     return render(request, "usuario.html")
 
 def transacoes(request):
-    return render(request, "transacoes.html")
+    context = {
+        "transacoes": Transacao.objects.all(),
+    }
+
+    return render(request, "transacoes.html", context)
 
 def categorias(request):
     return render(request, "categorias.html")

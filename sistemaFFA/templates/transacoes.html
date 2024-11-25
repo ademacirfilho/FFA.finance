@@ -62,13 +62,14 @@
             </tr>
         </thead>
         <tbody>
+            {% for transacao in transacoes %}
             <tr>
-                <td>mensalidade...</td>
-                <td>Arena</td>
-                <td>Academia</td>
-                <td>R$70,00</td>
-                <td>À vista</td>
-                <td><input type="checkbox" checked disabled></td>
+                <td>{{ transacao.descricao }}</td>
+                <td>{{ transacao.contatoNome }}</td>
+                <td>{{ transacao.categoriaNome }}</td>
+                <td>R$ {{ transacao.valor }}</td>
+                <td>{{ transacao.tipoPagamento }}</td>
+                <td><input type="checkbox" {% if transacao.pago %}checked{% endif %}></td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -81,6 +82,7 @@
                     </div>                    
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 
