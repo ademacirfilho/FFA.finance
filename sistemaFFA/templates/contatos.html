@@ -113,6 +113,15 @@
                 <input type="text" class="form-control" id="nome" required>
             </div>
             <div class="mb-3">
+                <label for="categoriaStatus" class="form-label">Tipo da Contato</label>
+                <select class="form-select" id="categoriaStatus">
+                    <option value="" selected>-- Selecione uma opção --</option>
+                    {% for contato in contatos %}
+                    <option value="{{ contato.tipo }}">{{ contato.tipo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="cpf-cnpj" class="form-label">CPF/CNPJ</label>
                 <input type="text" class="form-control" id="cpf-cnpj" name="cpf-cnpj" maxlength="18" oninput="formatCpfCnpj(this)">
             </div>

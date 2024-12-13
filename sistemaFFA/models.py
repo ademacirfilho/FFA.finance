@@ -6,12 +6,18 @@ class Pagamento(models.Model):
    def __str__(self):
       return self.tipoPagamento
 
-   
+class TipoContato(models.Model):
+   nome = models.CharField(max_length=20)
+
+   def __str__(self):
+      return self.nome
+
 class Contato(models.Model):
-   nome = models.CharField(max_length=100) 
+   nome = models.CharField(max_length=100)
+   tipo = models.ForeignKey(TipoContato, on_delete=models.CASCADE)
    cpf_cnpj = models.CharField(max_length=18, blank=True)
    email = models.EmailField(blank=True)
-   telefone = models.CharField(max_length=12, blank=True) 
+   telefone = models.CharField(max_length=12, blank=True)
    data = models.DateField()
 
    def __str__(self):
