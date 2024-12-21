@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static crispy_forms_tags %}
 
 {% block head %}<div class="header fw-semibold">Contatos</div>{% endblock head %}
 {% block content %}
@@ -107,33 +107,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form>
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nome" required>
-            </div>
-            <div class="mb-3">
-                <label for="categoriaStatus" class="form-label">Tipo da Contato</label>
-                <select class="form-select" id="categoriaStatus">
-                    <option value="" selected>-- Selecione uma opção --</option>
-                    {% for contato in contatos %}
-                    <option value="{{ contato.tipo }}">{{ contato.tipo }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="cpf-cnpj" class="form-label">CPF/CNPJ</label>
-                <input type="text" class="form-control" id="cpf-cnpj" name="cpf-cnpj" maxlength="18" oninput="formatCpfCnpj(this)">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email">
-            </div>
-            <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="telefone">
-            </div>
-            <button type="submit" class="btn btn-success">Salvar</button>
+        <form id="contatoForm" method="POST">
+            {% csrf_token %}
+            {% crispy form %}
         </form>
     </div>
 </div>

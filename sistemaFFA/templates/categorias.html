@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static crispy_forms_tags %}
 
 {% block head %}<div class="header fw-semibold">Categorias</div>{% endblock head %}
 {% block content %}
@@ -64,21 +64,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form>
-            <div class="mb-3">
-                <label for="categoriaNome" class="form-label">Nome da Categoria</label>
-                <input type="text" class="form-control" id="categoriaNome" required>
-            </div>
-            <div class="mb-3">
-                <label for="categoriaStatus" class="form-label">Tipo da Categoria</label>
-                <select class="form-select" id="categoriaStatus">
-                    <option value="" selected>-- Selecione uma opção --</option>
-                    {% for categoria in categorias %}
-                    <option value="{{ categoria.tipo }}">{{ categoria.tipo }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success">Salvar</button>
+        <form id="coategoriaForm" method="POST">
+            {% csrf_token %}
+            {% crispy form %}
         </form>
     </div>
 </div>

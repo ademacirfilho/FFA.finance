@@ -18,7 +18,7 @@
         <div class="card text-bg-danger border-0 shadow-sm">
             <div class="card-body" style="padding: 20px;">
                 <h5 class="card-title">Saida Total <i class="bi bi-x-square"></i></h5>
-                <p class="card-text">R$70,00</p>
+                <p class="card-text">R$0,00</p>
             </div>
         </div>
     </div>
@@ -31,7 +31,6 @@
         <thead>
             <tr>
                 <th>Ultimas transações <i class="bi bi-cash-coin"></i></th>
-                <th>Descrição</th>
                 <th>Pago a</th>
                 <th>Categoria</th>
                 <th>Valor</th>
@@ -40,37 +39,16 @@
             </tr>
         </thead>
         <tbody>
+            {% for transacao in transacoes %}
             <tr>
-                <td>academia</td>
-                <td>mensalidade...</td>
-                <td>Arena</td>
-                <td>Academia</td>
-                <td>R$70,00</td>
-                <td>À vista</td>
-                <td><input type="checkbox" checked disabled></td>
+                <td>{{ transacao.descricao }}</td>
+                <td>{{ transacao.contatoNome }}</td>
+                <td>{{ transacao.categoriaNome }}</td>
+                <td>R$ {{ transacao.valor }}</td>
+                <td>{{ transacao.tipoPagamento }}</td>
+                <td><input type="checkbox" {% if transacao.pago %}checked{% endif %}></td>
             </tr>
-        </tbody>
-        <tbody>
-            <tr>
-                <td>academia</td>
-                <td>mensalidade...</td>
-                <td>Arena</td>
-                <td>Academia</td>
-                <td>R$70,00</td>
-                <td>À vista</td>
-                <td><input type="checkbox" checked disabled></td>
-            </tr>
-        </tbody>
-        <tbody>
-            <tr>
-                <td>academia</td>
-                <td>mensalidade...</td>
-                <td>Arena</td>
-                <td>Academia</td>
-                <td>R$70,00</td>
-                <td>À vista</td>
-                <td><input type="checkbox" checked disabled></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

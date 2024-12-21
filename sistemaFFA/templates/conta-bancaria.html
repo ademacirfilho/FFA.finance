@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static crispy_forms_tags %}
 
 {% block head %}<div class="header fw-semibold">Conta Bancária</div>{% endblock head %}
 
@@ -16,52 +16,37 @@
       <thead>
           <tr>
               <th style="width: 30%;">Nome</th>
-              <th style="width: 20%;">Principal?</th>
+              <th style="width: 20%;">Tipo da Conta</th>
               <th style="width: 20%;">Saldo Inicial</th>
               <th style="width: 20%;">Saldo Atual</th>
               <th style="width: 10%;" class="text-end"></th>
           </tr>
       </thead>
       <tbody>
-          <tr>
-              <td style="padding: 15px 10px;">Conta Principal</td>
-              <td style="padding: 15px 10px;">Sim</td>
-              <td style="padding: 15px 10px;">R$0,00</td>
-              <td style="padding: 15px 10px;">R$0,00</td>
-              <td class="text-end">
-                  <div class="dropdown">
-                      <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i class="bi bi-three-dots"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                          <li><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></li>
-                          <li><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></li>
-                      </ul>
-                  </div>
-              </td>
+        {% for conta_bancaria in contas_bancarias %}
+        <tr>
+            <td style="padding: 15px 10px;">{{ conta_bancaria.nome }}</td>
+            <td style="padding: 15px 10px;">{{ conta_bancaria.tipoConta }}</td>
+            <td style="padding: 15px 10px;">R$ {{ conta_bancaria.saldo }}</td>
+            <td style="padding: 15px 10px;">R$0,00</td>
+            <td class="text-end">
+                <div class="dropdown">
+                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></li>
+                        <li><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></li>
+                    </ul>
+                </div>
+            </td>
           </tr>
-          <tr>
-              <td style="padding: 15px 10px;">Carteira</td>
-              <td style="padding: 15px 10px;">Não</td>
-              <td style="padding: 15px 10px;">R$0,00</td>
-              <td style="padding: 15px 10px;">R$0,00</td>
-              <td class="text-end">
-                  <div class="dropdown">
-                      <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i class="bi bi-three-dots"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                          <li><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></li>
-                          <li><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></li>
-                      </ul>
-                  </div>
-              </td>
-          </tr>
-          <tr>
-              <td colspan="3" class="text-end" style="padding: 15px 10px;"><strong>Total</strong></td>
-              <td style="padding: 15px 10px;">R$0,00</td>
-              <td></td>
-          </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3" class="text-end" style="padding: 15px 10px;"><strong>Total</strong></td>
+            <td style="padding: 15px 10px;">R$0,00</td>
+            <td></td>
+        </tr>
       </tbody>
   </table>
 </div>
@@ -74,46 +59,10 @@
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-      <form>
-          <div class="mb-3">
-              <label for="contaBancariaNome" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="contaBancariaNome" required>
-          </div>
-          <div class="mb-3">
-              <label for="contaBancaria" class="form-label">Tipo de conta</label>
-              <select class="form-select" id="contaBancaria">
-                  <option value="Ativa">Conta Corrente</option>
-                  <option value="Inativa">Poupança</option>
-                  <option value="Inativa">Conta salário</option>
-                  <option value="Inativa">Conta Investimento</option>
-                  <option value="Inativa">Caixa</option>
-                  <option value="Inativa">Carteira</option>
-                  <option value="Inativa">Outros</option>
-              </select>
-          </div>
-          <div class="mb-3">
-              <label for="contaBancariaBanco" class="form-label">Banco</label>
-              <select class="form-select" id="contaBancariaBanco">
-                  <option value="Ativa">X</option>
-                  <option value="Inativa">X</option>
-                  <option value="Inativa">X</option>
-                  <option value="Inativa">X</option>
-              </select>
-          </div>
-          <div class="mb-3">
-            <label for="contaBancariAgen" class="form-label">Agencia da Conta</label>
-            <input type="text" class="form-control" id="contaBancariAgen">
-          </div>
-          <div class="mb-3">
-            <label for="contaBancariaNum" class="form-label">Número da conta</label>
-            <input type="text" class="form-control" id="contaBancariaNum">
-          </div>
-          <div class="mb-3">
-            <label for="contaBancariaSaldo" class="form-label">Saldo Inicial</label>
-            <input type="number" step="0.01" class="form-control" id="contaBancariaSaldo">
-          </div>
-          <button type="submit" class="btn btn-success">Salvar</button>
-      </form>
+    <form id="contaBancariaForm" method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
   </div>
 </div>
 {% endblock content %}
