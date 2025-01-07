@@ -34,6 +34,34 @@ def transacoes(request):
 
     return render(request, "transacoes.html", context)
 
+def editar_transacao(request, transacao_id):
+    transacao = get_object_or_404(Transacao, pk=transacao_id)
+    context = {
+        "transacoes": Transacao.objects.all(),
+        "form": TransacaoForm(instance=transacao)
+    }
+
+    if request.method == "POST":
+        form = TransacaoForm(request.POST, instance=transacao)
+        if form.is_valid():
+            form.save()
+            return redirect('transacoes')
+        else:
+            context["form"] = form
+
+    return render(request, "editar_transacao.html", context)
+
+def deletar_transacao(request, transacao_id):
+    context = {
+        "transacoes": get_object_or_404(Transacao, pk=transacao_id)
+    }
+
+    if request.method == 'POST':
+        context["transacoes"].delete()
+        return redirect('transacoes')
+    else:
+        return render(request, "deletar_transacao.html", context)
+
 def contatos(request):
     context = {
         "contatos": Contato.objects.all()
