@@ -23,8 +23,8 @@
                     <img src="{% static "assets/FFA.finance.png" %}" alt="Logo FFA .finance" style="padding: 10px;">
                 <div class="avatar text-center mb-4">
                     <img src="https://via.placeholder.com/80" alt="Avatar">
-                    <a class="tag-a" href="{% url 'usuario' %}"><p class="mt-2">usuario</p></a>
-                    <p class="text-light">emailexemplo@gmail.com</p>
+                    <a class="tag-a" href="{% url 'usuario' %}"><p class="mt-2">{{ user.username }}</p></a>
+                    <p class="text-light">{{ user.email }}</p>
                 </div>
                 <!--<input class="form-control mb-3" type="search" placeholder="Pesquisar" aria-label="Pesquisar">-->
                 <a href="{% url "index" %}" class="active"><i class="bi bi-house"></i>Pagina Inicial</a>
@@ -33,12 +33,20 @@
                 <a href="{% url "categorias" %}"><i class="bi bi-tags"></i>Categorias</a>
                 <a href="{% url "conta_bancaria" %}"><i class="bi bi-bank"></i>Conta Bancária</a>
             </div>
-            <a href="/tela-login/index.html" class="text-light mt-5"><i class="bi bi-box-arrow-right"></i>Sair da Conta</a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-danger mt-5">
+                      <i class="bi bi-box-arrow-right"></i> Sair da Conta
+                    </button>
+                </div>
+            </form>
+
         </div>
 
         <!-- Main content -->
         <div class="col-10 p-4">
-            {% block head %}<div class="header fw-semibold">Olá, <span>{usuario}</span>.</div>{% endblock head %}
+            {% block head %}<div class="header fw-semibold">Olá, <span>{{ user.username }}</span>.</div>{% endblock head %}
 
             {% block content %}
             {% endblock content %}

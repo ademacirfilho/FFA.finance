@@ -1,0 +1,22 @@
+{% extends "base_user.html" %}
+{% load static crispy_forms_tags %}
+{% block title %}Cadastre-se{% endblock title %}
+
+{% block content %}
+
+<div class="col-lg-6">
+    <div class="card shadow">
+        <div class="card-body p-4 p-md-5">
+            <form method="POST" action="{% url 'cadastro' %}">
+                {% csrf_token %}
+                {% crispy form %}
+
+                <div class="text-center">
+                    <p class="mb-2">Já tem uma conta? <a href="{% url 'login' %}">Faça o login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

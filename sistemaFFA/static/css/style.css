@@ -89,11 +89,11 @@ body {
     flex-grow: 1;
 }
 
-.sidebar a.text-light {
+.sidebar button.text-light {
 text-align: center;
 }
 
-.sidebar a.text-light:hover {
+.sidebar button.text-light:hover {
 background-color: red;
 color: white;
 }

@@ -1,0 +1,76 @@
+{% extends "base_page.html" %}
+{% load static %}
+
+{% block content %}
+
+<main>
+    <section class="topo-do-site">
+        <div class="interface">
+            <div class="flex">
+                <div class="txt-topo-site">
+                    <h1>Você no controle do seu dinheiro.</h1>
+                    <p>Tudo que você precisa para gerenciar suas finanças, de graça.</p>
+                    <div class="btn-login">
+                        <a href="#">
+                            <button class="btn-registrar">Registrar-se</button>
+                        </a>
+                    </div>
+                    <p style="font-size: 10px; margin: 2px;">Registro <strong>gratuito.</strong></p>
+                </div><!--txt-topo-site-->
+
+                <div class="img-topo-site">
+                    <img src="{% static "assets/ffa-pagina.png" %}" alt="">
+                </div><!--img-topo-site-->
+            </div><!--flex-->
+        </div><!--interface-->
+    </section><!--topo-do-site-->
+
+    <section class="especialidades">
+        <div class="interface">
+            <h2 class="especialidade">Por que o <span>FFA .finance é o melhor<br></span> sistema de <span>gestão financeira?</span></h2>
+            <div class="flex">
+                <div class="especialidades-box">
+                    <i class="bi bi-cash"></i>
+                    <h3>Baixo custo</h3>
+                    <p>Preço justo que cabe no seu bolso.</p>
+                </div><!--especialidades-box-->
+                
+                <div class="especialidades-box">
+                    <i class="bi bi-award-fill"></i>
+                    <h3>Fácil de usar</h3>
+                    <p>Super intuitivo! Descomplicar é o nosso foco.</p>
+                </div><!--especialidades-box-->
+                
+                <div class="especialidades-box">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <h3>Completo</h3>
+                    <p>Tudo que você precisa para uma boa gestão.</p>
+                </div><!--especialidades-box-->
+            </div><!--flex-->
+        </div><!--interface-->
+    </section><!--especialidades-->
+
+    <section class="sobre">
+        <div class="interface">
+            <div class="flex">
+                <div class="img-sobre">
+                    <img src="{% static "assets/empreendedor.jpg" %}" alt="">
+                </div><!--img-sobre-->
+
+                <div class="txt-sobre">
+                    <h2>FFA .finance é para você empreendedor.</h2>
+                    <p>Você empresário e empresária que possui uma <span>MEI, Micro ou Pequena Empresa de Prestação de Serviços,</span> está a um passo de melhorar a sua gestão financeira. Experimente o FFA .finance!</p>
+
+                    <div class="btn-login">
+                        <a href="#">
+                            <button class="btn-registrar btn-sobre">Registrar-se</button>
+                        </a>
+                    </div><!--btn-login-->
+                    <p style="font-size: 10px; margin: 2px;">Registro <strong>gratuito.</strong></p>
+                </div><!--txt-sobre-->
+            </div><!--flex-->
+        </div><!--interface-->
+    </section><!--sobre-->
+</main>
+
+{% endblock content %}
