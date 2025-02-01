@@ -4,6 +4,12 @@ body {
     background-color: #f7f7f7;
     font-family: "Montserrat", sans-serif;
 }
+
+.flex {
+    display: flex;
+}
+
+/* ESTILO DO SIDEBAR */
 .sidebar {
     min-height: 100vh;
     background: linear-gradient(180deg, #5c2ad1, #8338ec);
@@ -46,7 +52,9 @@ body {
 }
 
 .sidebar a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #FFFFFF;
+    color: #5F2498;
+    border-radius: 10px;
 }
 
 .sidebar a.active {
@@ -65,6 +73,33 @@ body {
 .header {
     margin-top: 20px;
     font-size: 24px;
+}
+
+/* ESTILO DO MENU MOBILE */
+.menu-mobile{
+    background-color: #5F2498;
+}
+
+.menu-mobile a{
+    color: #FFFFFF;
+    padding: 10px;
+    transition: .2s;
+}
+
+.menu-mobile .menu-h5{
+    color: #FFFFFF;
+    padding: 10px;
+    transition: .2s;
+}
+
+.menu-mobile .email{
+    color: #FFFFFF;
+}
+
+.menu-mobile a:hover{
+    background-color: #FFFFFF;
+    color: #5F2498;
+    border-radius: 10px;
 }
 
 .card{
@@ -179,8 +214,11 @@ color: white;
     background-color: #f1f1f1;
     border-radius: 25px;
     color: black;
-    margin: 30px 0 10px 0;
-    padding: 10px 30px;
+    margin: 5px; /* Reduzindo a margem para evitar espaçamentos excessivos */
+    padding: 10px 20px; /* Reduzindo o padding lateral para melhor adaptação */
+    flex-grow: 1; /* Permite que os botões se expandam uniformemente */
+    text-align: center; /* Garante centralização do texto */
+    white-space: nowrap; /* Evita que o texto quebre */
 }
 
 .btn-custom.active {
@@ -188,7 +226,10 @@ color: white;
     color: white;
 }
 
+
 /* transacoes */
 .text-end{
     margin-bottom: 0;
 }
+
+

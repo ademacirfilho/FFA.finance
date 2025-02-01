@@ -4,33 +4,32 @@
 {% block content %}
 <!-- Totais -->
 <div class="row mt-4">
-    <!-- Cartão "Deve para mim" -->
-    <div class="col-md-6">
+    <!-- Cartão "Entrada Total" -->
+    <div class="col-md-6 col-12 mb-3"> <!-- Ocupa 6 colunas no desktop, 12 no mobile -->
         <div class="card text-bg-success border-0 shadow-sm">
-            <div class="card-body" style="padding: 20px;">
+            <div class="card-body">
                 <h5 class="card-title">Entrada Total <i class="bi bi-cash"></i></h5>
                 <p class="card-text">R$0,00</p>
             </div>
         </div>
     </div>
-    <!-- Cartão "Eu devo" -->
-    <div class="col-md-6">
+    <!-- Cartão "Saída Total" -->
+    <div class="col-md-6 col-12 mb-3">
         <div class="card text-bg-danger border-0 shadow-sm">
-            <div class="card-body" style="padding: 20px;">
-                <h5 class="card-title">Saida Total <i class="bi bi-x-square"></i></h5>
+            <div class="card-body">
+                <h5 class="card-title">Saída Total <i class="bi bi-x-square"></i></h5>
                 <p class="card-text">R$0,00</p>
             </div>
         </div>
     </div>
 </div>
 
-
-<!-- Tabela de Transações -->
-<div class="transaction-table mt-4">
+<!-- Tabela de Transações (Adicionando rolagem em telas pequenas) -->
+<div class="table-responsive mt-4"> <!-- Classe do Bootstrap para rolagem horizontal -->
     <table class="table table-hover">
-        <thead>
+        <thead class="table-light">
             <tr>
-                <th>Ultimas transações <i class="bi bi-cash-coin"></i></th>
+                <th>Últimas transações <i class="bi bi-cash-coin"></i></th>
                 <th>Pago a</th>
                 <th>Categoria</th>
                 <th>Valor</th>
@@ -46,7 +45,9 @@
                 <td>{{ transacao.categoriaNome }}</td>
                 <td>R$ {{ transacao.valor }}</td>
                 <td>{{ transacao.tipoPagamento }}</td>
-                <td><input type="checkbox" {% if transacao.pago %}checked{% endif %}></td>
+                <td>
+                    <input class="form-check-input" type="checkbox" {% if transacao.pago %}checked{% endif %}>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

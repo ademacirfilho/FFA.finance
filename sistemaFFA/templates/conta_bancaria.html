@@ -36,10 +36,10 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                          <a href="{% url 'editar_conta_bancaria' conta_bancaria.id %}"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
+                          <a href="{% url 'editar_conta_bancaria' conta_bancaria.id %}" class="text-decoration-none"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
                         </li>
                         <li>
-                          <a href="{% url 'deletar_conta_bancaria' conta_bancaria.id %}"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
+                          <a href="{% url 'deletar_conta_bancaria' conta_bancaria.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
                         </li>
                     </ul>
                 </div>

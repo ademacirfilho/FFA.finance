@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Grupo de Botões">
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
             <button type="button" class="btn btn-custom active">Todos</button>
             <button type="button" class="btn btn-custom">Associados</button>
             <button type="button" class="btn btn-custom">Cliente</button>
@@ -42,8 +42,8 @@
     </div>
     <div class="col-md-4 text-end">
         <h4>Saldo atual</h4>
-        <p class="text-success">R$32,34</p>
-        <p class="text-muted">Previsão do mês: <span class="text-success">R$2</span></p>
+        <p class="text-success">R$0,00</p>
+        <p class="text-muted">Previsão do mês: <span class="text-success">R$0</span></p>
         <p><strong>Conta Principal</strong></p>
     </div>
 </div>
@@ -77,11 +77,11 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a href="{% url 'editar_transacao' transacao.id %}">
+                                <a href="{% url 'editar_transacao' transacao.id %}" class="text-decoration-none">
                                 <button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button>
                             </a>
                             <li>
-                                <a href="{% url 'deletar_transacao' transacao.id %}"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
+                                <a href="{% url 'deletar_transacao' transacao.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
                             </li>
                         </ul>
                     </div>                    

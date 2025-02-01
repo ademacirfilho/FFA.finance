@@ -5,13 +5,14 @@
 {% block content %}
 
 <!-- Botões de filtro -->
-<div class="btn-group mt-2" role="group" aria-label="Grupo de Botões">
-    <button type="button" class="btn btn-custom active">Todos</button>
-    <button type="button" class="btn btn-custom">Fixas</button>
-    <button type="button" class="btn btn-custom">Variáveis</button>
-    <button type="button" class="btn btn-custom">Impostos</button>
-    <button type="button" class="btn btn-custom">Rendimentos</button>
-</div>
+<form method="GET" action="?">
+    <div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
+        {% for tipos in tipo %}
+        <button type="submit" name="{{ tipos.nome }}" class="btn btn-custom" value="{{ request.GET.tipos }}">{{ tipos.nome }}</button>
+        {% endfor %}
+    </div>
+</form>
+
 
 <div class="mt-4">
     <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias" aria-controls="offcanvasCategorias">
@@ -45,10 +46,10 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a href="{% url 'editar_categoria' categoria.id %}"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
+                                    <a href="{% url 'editar_categoria' categoria.id %}" class="text-decoration-none"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'deletar_categoria' categoria.id %}"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
+                                    <a href="{% url 'deletar_categoria' categoria.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
                                 </li>
                             </ul>
                         </div>                    

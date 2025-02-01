@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms.models import model_to_dict
-from .models import Transacao, Contato, Categoria, ContaBancaria
+from .models import Transacao, Contato, Categoria, ContaBancaria, TipoCategoria
 from .forms import TransacaoForm, ContatoForm, CategoriaForm, ContaBancariaForm
 from django.contrib.auth.decorators import login_required
 
@@ -109,7 +109,8 @@ def deletar_contato(request, contato_id):
 
 def categorias(request):
     context = {
-        "categorias": Categoria.objects.all()
+        "categorias": Categoria.objects.all(),
+        "tipo": TipoCategoria.objects.all()
     }
 
     if request.method == "POST":
@@ -123,6 +124,7 @@ def categorias(request):
         context["form"] = CategoriaForm
 
     return render(request, "categorias.html", context)
+
 
 def editar_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)

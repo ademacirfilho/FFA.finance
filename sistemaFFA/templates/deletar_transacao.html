@@ -6,7 +6,10 @@
 
 <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
     <div class="text-center">
-        <h1>Tem certeza?</h1>
+        <h1>Tem certeza? <i class="bi bi-exclamation-triangle-fill"></i></h1>
+        <p class="fs-4">
+            Ao excluir esta transação, todos os itens associados a ela serão removidos. <br>Esta ação não pode ser desfeita.
+        </p>
         <form id="transacaoForm" method="POST">
             {% csrf_token %}
             <div class="mt-4">
