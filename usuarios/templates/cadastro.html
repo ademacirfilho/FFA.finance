@@ -9,7 +9,9 @@
         <div class="card-body p-4 p-md-5">
             <form method="POST" action="{% url 'cadastro' %}">
                 {% csrf_token %}
-                {% crispy form %}
+                {{ form | crispy }}
+
+                <button class='btn btn-primary w-100 mb-3' type="submit">Cadastrar</button>
 
                 <div class="text-center">
                     <p class="mb-2">Já tem uma conta? <a href="{% url 'login' %}">Faça o login</a></p>

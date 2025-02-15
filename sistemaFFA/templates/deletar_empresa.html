@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+
+{% block head %}<div class="header fw-semibold">Deletar Empresa</div>{% endblock head %}
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="text-center">
+        <h1>Tem certeza? <i class="bi bi-exclamation-triangle-fill"></i></h1>
+        <p class="fs-4">
+            Ao excluir a Empresa, todos os itens associados a ela serão removidos. <br>Esta ação não pode ser desfeita.
+        </p>
+        <form id="empresaForm" method="POST">
+            {% csrf_token %}
+            <div class="mt-4">
+                <button class="btn btn-danger text-uppercase btn-lg me-3" id="submitButton" type="submit">Sim</button>
+                <a href="{% url 'usuario' user.id %}" class="btn btn-dark text-uppercase btn-lg">Não</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

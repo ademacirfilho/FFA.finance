@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+
+{% block head %}<div class="header fw-semibold">Dados da empresa</div>{% endblock head %}
+
+{% block content %}
+
+<div class="offcanvas-body">
+    <form id="empresaForm" method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+</div>
+
+{% endblock content %}
