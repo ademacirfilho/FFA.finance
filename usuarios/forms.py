@@ -1,9 +1,20 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import BaseUserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from .models import User
 
-class CadastroForm(BaseUserCreationForm):
+class CadastroForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+        fields = ['username', 'email']
+
+class UsuarioCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', "first_name", "last_name", 'email', 'cpf', 'telefone', 'avatar']
+
+class UsuarioChangeForm(UserChangeForm):
+    password = None
+    
+    class Meta:
+        model = User
+        fields = ['username', "first_name", "last_name", 'email', 'cpf', 'telefone', 'avatar']

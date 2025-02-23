@@ -16,7 +16,7 @@
     <header>
         <div class="interface">
             <div class="logo">
-                <a href="{% url "index_page" %}">
+                <a href="{% url "paginaInicial:index" %}">
                     <img src="{% static "assets/FFAfinance.svg" %}" alt="Logo FFA .finance">
                 </a>
             </div><!--logo-->
@@ -25,12 +25,12 @@
                 <ul>
                     <li><a href="#">Funcionalidades</a></li>
                     <li class="btn-login">
-                        <a href="{% url "login" %}">
+                        <a href="{% url "usuarios:login" %}">
                             <button class="btn-entrar">Entrar</button>
                         </a>
                     </li>
                     <li class="btn-login">
-                        <a href="{% url "cadastro" %}">
+                        <a href="{% url "usuarios:cadastro" %}">
                             <button class="btn-registrar btn-header">Registrar-se</button>
                         </a>
                     </li>
@@ -49,8 +49,8 @@
                 <nav>
                     <ul>
                         <li><a href="#">Funcionalidades</a></li>
-                        <li><a href="{% url "login" %}">Entrar</a></li>
-                        <li><a href="{% url "cadastro" %}">Registrar-se</a></li>
+                        <li><a href="{% url "usuarios:login" %}">Entrar</a></li>
+                        <li><a href="{% url "usuarios:cadastro" %}">Registrar-se</a></li>
                     </ul>
                 </nav>
 

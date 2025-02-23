@@ -40,10 +40,17 @@ class Categoria(models.Model):
    def __str__(self):
       return self.nome
 
+class TipoTransacao(models.Model):
+   nome = models.CharField(max_length=30)
+
+   def __str__(self):
+      return self.nome
+
 class Transacao(models.Model):
    descricao = models.CharField(max_length=100) 
    valor = models.DecimalField(max_digits=10, decimal_places=2)
    data = models.DateField()
+   tipo = models.ForeignKey(TipoTransacao, on_delete=models.CASCADE, default=1)
    tipoPagamento = models.ForeignKey(Pagamento, on_delete=models.CASCADE)
    categoriaNome = models.ForeignKey(Categoria, on_delete=models.CASCADE)
    contatoNome = models.ForeignKey(Contato, on_delete=models.CASCADE)

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <script src="{% static 'script/main.js' %}" defer></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -22,15 +24,19 @@
                 <div class="sidebar-content p-2">
                     <img src="{% static 'assets/FFA.finance.png' %}" alt="Logo FFA .finance" class="img-fluid mb-3">
                     <div class="avatar text-center mb-4">
-                        <img src="https://i.pravatar.cc/150?img=3" alt="Avatar" class="rounded-circle">
-                        <a href="{% url 'usuario' user.id %}" class="mt-2 fw-bold d-block">{{ user.username }}</a>
+                        {% if request.user.avatar %}
+                            <img src="{{ request.user.avatar.url }}" alt="Avatar de {{ usuario.username }}" class="rounded-circle object-fit-cover">
+                        {% else %}
+                            <img src="https://i.pravatar.cc/150?u" alt="Avatar padrão" class="rounded-circle">
+                        {% endif %} 
+                        <a href="{% url 'usuarios:usuario' %}" class="mt-2 fw-bold d-block">{{ user.username }}</a>
                         <p class="text-light">{{ user.email }}</p>
                     </div>
-                    <a href="{% url 'index' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-house"></i> Página Inicial</a>
-                    <a href="{% url 'transacoes' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-cash-stack"></i> Transações</a>
-                    <a href="{% url 'contatos' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-person"></i> Contatos</a>
-                    <a href="{% url 'categorias' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-tags"></i> Categorias</a>
-                    <a href="{% url 'conta_bancaria' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-bank"></i> Conta Bancária</a>
+                    <a href="{% url 'sistemaFFA:index' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-house"></i> Página Inicial</a>
+                    <a href="{% url 'sistemaFFA:transacoes' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-cash-stack"></i> Transações</a>
+                    <a href="{% url 'sistemaFFA:contatos' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-person"></i> Contatos</a>
+                    <a href="{% url 'sistemaFFA:categorias' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-tags"></i> Categorias</a>
+                    <a href="{% url 'sistemaFFA:conta_bancaria' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-bank"></i> Conta Bancária</a>
                 </div>
                 <form method="POST" action="{% url 'logout' %}" class="p-5">
                     {% csrf_token %}
@@ -55,21 +61,21 @@
                     <button class="btn-close btn-close-white" id="btn-fechar"></button>
                 </div>
                 <div class="avatar text-center mb-3">
-                    {% if usuario.avatar %}
-                        <img src="{{ usuario.avatar.url }}" alt="Avatar de {{ usuario.username }}" class="rounded-circle">
+                    {% if request.user.avatar %}
+                        <img src="{{ request.user.avatar.url }}" alt="Avatar de {{ usuario.username }}" class="rounded-circle object-fit-cover">
                     {% else %}
                         <img src="https://i.pravatar.cc/150?u" alt="Avatar padrão" class="rounded-circle">
                     {% endif %} 
-                    <a href="{% url 'usuario' user.id %}" class="mt-2 fw-bold d-block text-decoration-none">{{ user.username }}</a>
+                    <a href="{% url 'usuarios:usuario' %}" class="mt-2 fw-bold d-block text-decoration-none">{{ user.username }}</a>
                     <p class="email">{{ user.email }}</p>
                 </div>
                 <nav class="mt-3 menu-mobile">
                     <ul class="list-unstyled">
-                        <li><a href="{% url 'index' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-house"></i> Página Inicial</a></li>
-                        <li><a href="{% url 'transacoes' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-cash-stack"></i> Transações</a></li>
-                        <li><a href="{% url 'contatos' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-person"></i> Contatos</a></li>
-                        <li><a href="{% url 'categorias' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-tags"></i> Categorias</a></li>
-                        <li><a href="{% url 'conta_bancaria' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-bank"></i> Conta Bancária</a></li>
+                        <li><a href="{% url 'sistemaFFA:index' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-house"></i> Página Inicial</a></li>
+                        <li><a href="{% url 'sistemaFFA:transacoes' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-cash-stack"></i> Transações</a></li>
+                        <li><a href="{% url 'sistemaFFA:contatos' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-person"></i> Contatos</a></li>
+                        <li><a href="{% url 'sistemaFFA:categorias' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-tags"></i> Categorias</a></li>
+                        <li><a href="{% url 'sistemaFFA:conta_bancaria' %}" class="d-block py-2 text-decoration-none"><i class="bi bi-bank"></i> Conta Bancária</a></li>
                     </ul>
                 </nav>
                 <form method="POST" action="{% url 'logout' %}" class="p-3 mt-auto">
@@ -95,22 +101,9 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{% static "script/script.js" %}"></script>
-    <script>
-        document.getElementById('btn-menu').addEventListener('click', function () {
-            document.getElementById('menu-mobile').style.transform = 'translateX(0)';
-            document.getElementById('overlay-menu').style.display = 'block';
-        });
-        document.getElementById('btn-fechar').addEventListener('click', function () {
-            document.getElementById('menu-mobile').style.transform = 'translateX(-100%)';
-            document.getElementById('overlay-menu').style.display = 'none';
-        });
-        document.getElementById('overlay-menu').addEventListener('click', function () {
-            document.getElementById('menu-mobile').style.transform = 'translateX(-100%)';
-            document.getElementById('overlay-menu').style.display = 'none';
-        });
-    </script>
+    
 </body>
 </html>

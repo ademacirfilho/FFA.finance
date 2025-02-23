@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Dados da Pessoa -->
+    <div>
+      <div class="row mb-4">
+        <h5>Dados da Pessoa</h5>
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Nome</label>
+          <p>{{ user.first_name|default:'---' }}</p>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Sobrenome</label>
+          <p>{{ user.last_name|default:'---' }}</p>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label class="form-label fw-bold">Email</label>
+            <p>{{ user.email|default:'---' }}</p>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label class="form-label fw-bold">CPF</label>
+            <p>{{ user.cpf|default:'---' }}</p>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label class="form-label fw-bold">Telefone</label>
+            <p>{{ user.telefone|default:'---' }}</p>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-end">
+          <a href="{% url "usuarios:editar_usuario" %}">
+            <button class="btn btn-primary me-2">Editar Conta</button>
+          </a>
+        </div>
+      </div>
+    
+{% endblock content %}

@@ -1,13 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
-from .models import Transacao, Contato, Categoria, ContaBancaria, TipoCategoria
-from usuarios.models import User, Empresa
-from .forms import TransacaoForm, ContatoForm, CategoriaForm, ContaBancariaForm, UserForm, EmpresaForm
+from .models import Transacao, Contato, Categoria, ContaBancaria
+from .forms import TransacaoForm, ContatoForm, CategoriaForm, ContaBancariaForm
 from django.contrib.auth.decorators import login_required
 
 def base(request):
-    return render(request, "base.html")
+    return render(request, "sistemaFFA/base.html")
 
 @login_required
 def index(request):
@@ -22,86 +21,7 @@ def index(request):
     context["transacoes"] = transacoes_paginadas
 
 
-    return render(request, "index.html", context)
-
-@login_required
-def usuario(request, user_id):
-    usuario = User.objects.get(pk=user_id)
-    
-    context = {
-        "usuario": usuario,
-        "empresa": usuario.empresa 
-    }
-    
-    return render(request, "usuario.html", context)
-
-@login_required
-def editar_usuario(request, user_id):
-    usuario = get_object_or_404(User, pk=user_id)
-    context = {
-        "usuario": usuario,
-        "form": UserForm(instance=usuario)
-    }
-
-    if request.method == "POST":
-        form = UserForm(request.POST, instance=usuario)
-        if form.is_valid():
-            form.save()
-            return redirect('usuario', user_id)
-        else:
-            context["form"] = form
-
-    return render(request, "editar_usuario.html", context)
-
-@login_required
-def empresa(request):
-    context = {
-        "empresa": Empresa.objects.all()
-    }
-
-    if request.method == "POST":
-        form = EmpresaForm(request.POST)
-        if form.is_valid():
-            empresa = form.save(commit=False)  # Não salva ainda
-            empresa.usuario = request.user  # Associa ao usuário logado
-            empresa.save()  # Agora salva com o usuário
-            return redirect('index')
-        else:
-            context["form"] = form
-    else:
-        context["form"] = EmpresaForm()
-
-    return render(request, "usuario.html", context)
-
-@login_required
-def editar_empresa(request, empresa_id):
-    empresa = get_object_or_404(Empresa, pk=empresa_id)
-    context = {
-        "empresa": empresa,
-        "form": EmpresaForm(instance=empresa)
-    }
-
-    if request.method == "POST":
-        form = EmpresaForm(request.POST, instance=empresa)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-        else:
-            context["form"] = form
-
-    return render(request, "editar_empresa.html", context)
-
-@login_required
-def deletar_empresa(request, empresa_id):
-    context = {
-        "empresa": get_object_or_404(Empresa, pk=empresa_id)
-    }
-
-    if request.method == 'POST':
-        context["empresa"].delete()
-        return redirect('index')
-    else:
-        return render(request, "deletar_empresa.html", context)
+    return render(request, "sistemaFFA/index.html", context)
 
 @login_required
 def transacoes(request):
@@ -113,7 +33,7 @@ def transacoes(request):
             transacao = form.save(commit=False)  # Não salva no banco ainda
             transacao.user = usuario_atual  # Define o usuário logado
             transacao.save()
-            return redirect('transacoes')
+            return redirect('sistemaFFA:transacoes')
     else:
         form = TransacaoForm()  # Criar o formulário corretamente
 
@@ -130,7 +50,7 @@ def transacoes(request):
         "transacoes": transacoes_paginadas,  # 🔹 Agora realmente está pegando os dados do banco!
     }
 
-    return render(request, 'transacoes.html', context)
+    return render(request, 'sistemaFFA/transacoes.html', context)
 
 @login_required
 def editar_transacao(request, transacao_id):
@@ -144,11 +64,11 @@ def editar_transacao(request, transacao_id):
         form = TransacaoForm(request.POST, instance=transacao)
         if form.is_valid():
             form.save()
-            return redirect('transacoes')
+            return redirect('sistemaFFA:transacoes')
         else:
             context["form"] = form
 
-    return render(request, "editar_transacao.html", context)
+    return render(request, "sistemaFFA/editar_transacao.html", context)
 
 @login_required
 def deletar_transacao(request, transacao_id):
@@ -158,9 +78,9 @@ def deletar_transacao(request, transacao_id):
 
     if request.method == 'POST':
         context["transacoes"].delete()
-        return redirect('transacoes')
+        return redirect('sistemaFFA:transacoes')
     else:
-        return render(request, "deletar_transacao.html", context)
+        return render(request, "sistemaFFA/deletar_transacao.html", context)
 
 @login_required
 def contatos(request):
@@ -172,7 +92,7 @@ def contatos(request):
             contatos = form.save(commit=False)
             contatos.user = usuario_atual
             contatos.save()
-            return redirect('contatos')
+            return redirect('sistemaFFA:contatos')
     else:
         form = ContatoForm()
 
@@ -187,7 +107,7 @@ def contatos(request):
         "contatos": contatos_paginados
     }
     
-    return render(request, "contatos.html", context)
+    return render(request, "sistemaFFA/contatos.html", context)
 
 @login_required
 def editar_contato(request, contato_id):
@@ -201,11 +121,11 @@ def editar_contato(request, contato_id):
         form = ContatoForm(request.POST, instance=contato)
         if form.is_valid():
             form.save()
-            return redirect('contatos')
+            return redirect('sistemaFFA:contatos')
         else:
             context["form"] = form
 
-    return render(request, "editar_contato.html", context)
+    return render(request, "sistemaFFA/editar_contato.html", context)
 
 @login_required
 def deletar_contato(request, contato_id):
@@ -215,9 +135,9 @@ def deletar_contato(request, contato_id):
 
     if request.method == 'POST':
         context["contatos"].delete()
-        return redirect('contatos')
+        return redirect('sistemaFFA:contatos')
     else:
-        return render(request, "deletar_contato.html", context)
+        return render(request, "sistemaFFA/deletar_contato.html", context)
 
 @login_required
 def categorias(request):
@@ -229,7 +149,7 @@ def categorias(request):
             categorias = form.save(commit=False)
             categorias.user = usuario_atual
             categorias.save()
-            return redirect('categorias')
+            return redirect('sistemaFFA:categorias')
     else:
         form = CategoriaForm()
 
@@ -240,12 +160,11 @@ def categorias(request):
     categorias_paginadas = paginator.get_page(numero_pagina)
 
     context = {
-        "tipo": TipoCategoria.objects.all(),
         "form": form,
         "categorias": categorias_paginadas
     }
 
-    return render(request, "categorias.html", context)
+    return render(request, "sistemaFFA/categorias.html", context)
 
 
 @login_required
@@ -260,11 +179,11 @@ def editar_categoria(request, categoria_id):
         form = CategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             form.save()
-            return redirect('categorias')
+            return redirect('sistemaFFA:categorias')
         else:
             context["form"] = form
 
-    return render(request, "editar_categoria.html", context)
+    return render(request, "sistemaFFA/editar_categoria.html", context)
 
 @login_required
 def deletar_categoria(request, categoria_id):
@@ -274,9 +193,9 @@ def deletar_categoria(request, categoria_id):
 
     if request.method == 'POST':
         context["categorias"].delete()
-        return redirect('categorias')
+        return redirect('sistemaFFA:categorias')
     else:
-        return render(request, "deletar_categoria.html", context)
+        return render(request, "sistemaFFA/deletar_categoria.html", context)
 
 
 @login_required
@@ -289,7 +208,7 @@ def conta_bancaria(request):
             conta_bancaria = form.save(commit=False)
             conta_bancaria.user = usuario_atual
             conta_bancaria.save()
-            return redirect('conta_bancaria')
+            return redirect('sistemaFFA:conta_bancaria')
     else:
         form = ContaBancariaForm()
 
@@ -304,7 +223,7 @@ def conta_bancaria(request):
         "contas_bancarias": contas_bancarias_paginadas
     }
 
-    return render(request, "conta_bancaria.html", context)
+    return render(request, "sistemaFFA/conta_bancaria.html", context)
 
 @login_required
 def editar_conta_bancaria(request, conta_bancaria_id):
@@ -318,11 +237,11 @@ def editar_conta_bancaria(request, conta_bancaria_id):
         form = ContaBancariaForm(request.POST, instance=conta_bancaria)
         if form.is_valid():
             form.save()
-            return redirect('conta_bancaria')
+            return redirect('sistemaFFA:conta_bancaria')
         else:
             context["form"] = form
 
-    return render(request, "editar_conta_bancaria.html", context)
+    return render(request, "sistemaFFA/editar_conta_bancaria.html", context)
 
 @login_required
 def deletar_conta_bancaria(request, conta_bancaria_id):
@@ -332,6 +251,6 @@ def deletar_conta_bancaria(request, conta_bancaria_id):
 
     if request.method == 'POST':
         context["contas_bancarias"].delete()
-        return redirect('conta_bancaria')
+        return redirect('sistemaFFA:conta_bancaria')
     else:
-        return render(request, "deletar_conta_bancaria.html", context)
+        return render(request, "sistemaFFA/deletar_conta_bancaria.html", context)

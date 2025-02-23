@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Transacao, TipoContato, Contato, Categoria, ContaBancaria, Pagamento, TipoCategoria, Conta
+from .models import Transacao, TipoTransacao, TipoContato, Contato, Categoria, ContaBancaria, Pagamento, TipoCategoria, Conta
 
 admin.site.register(Transacao)
+admin.site.register(TipoTransacao)
 admin.site.register(Contato)
 admin.site.register(TipoContato)
 admin.site.register(Categoria)

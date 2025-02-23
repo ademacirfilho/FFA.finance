@@ -59,7 +59,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / "templates" ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,5 +136,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 AUTH_USER_MODEL = "usuarios.User"
 
-LOGOUT_REDIRECT_URL = "index_page"
-LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "paginaInicial:index"
+LOGIN_REDIRECT_URL = "sistemaFFA:index"
