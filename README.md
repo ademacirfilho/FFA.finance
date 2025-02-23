@@ -10,7 +10,7 @@ O **FFA .finance** é um gerenciador de finanças microempresariais, desenvolvid
 - Interface amigável e responsiva.  
 
 ## Tecnologias Utilizadas  
-- **Frontend**: HTML, CSS, JavaScript  
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap
 - **Backend**: Django  
 - **Outras Tecnologias**: AJAX para atualização dinâmica de gráficos  
 
