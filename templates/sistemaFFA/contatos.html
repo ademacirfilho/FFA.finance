@@ -25,14 +25,12 @@
     </div>
 </div>
 
-<div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
-    <button type="button" class="btn btn-custom active">Todos</button>
-    <button type="button" class="btn btn-custom">Associados</button>
-    <button type="button" class="btn btn-custom">Cliente</button>
-    <button type="button" class="btn btn-custom">Colaborador</button>
-    <button type="button" class="btn btn-custom">Fornecedor</button>
-    <button type="button" class="btn btn-custom">Sócio</button>
-    <button type="button" class="btn btn-custom">Outro</button>
+<div class="d-flex flex-wrap justify-content-center gap-2 mt-2" id="btn-contato">
+    {% for tipo in tipos %}
+        <button class="btn btn-custom" data-nome="{{ tipo.nome }}" id="{{ tipo.id }}">
+            {{ tipo.nome }}
+        </button>
+    {% endfor %}
 </div>
 
 <!-- Botão para abrir a barra lateral -->
@@ -42,96 +40,9 @@
     </button>
 </div>
 
-<!-- Tabela de Transações -->
-<div class="transaction-table mt-4">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th style="width: 20%;">Nome</th>
-                <th style="width: 20%;">CPF/CNPJ</th>
-                <th style="width: 20%;">Email</th>
-                <th style="width: 20%;">Telefone</th>
-                <th style="width: 15%;" class="text-end">Atualizado em</th>
-                <th style="width: 5%;"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for contato in contatos %}
-            <tr>
-                <td>{{ contato.nome }}</td>
-                <td>
-                    {% if contato.cpf_cnpj %}
-                    {{ contato.cpf_cnpj }}
-                    {% else %}
-                    Nao informado
-                    {% endif %}
-                </td>
-                <td>
-                    {% if contato.email %}
-                    {{ contato.email }}
-                    {% else %}
-                    Nao informado
-                    {% endif %}
-                </td>
-                <td>
-                    {% if contato.telefone %}
-                    {{ contato.telefone }}
-                    {% else %}
-                    Nao informado
-                    {% endif %}
-                </td>
-                <td class="text-end">{{ contato.data }}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-three-dots"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a href="{% url 'sistemaFFA:editar_contato' contato.id %}" class="text-decoration-none"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
-                            </li>
-                            <li>
-                                <a href="{% url 'sistemaFFA:deletar_contato' contato.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
-                            </li>
-                        </ul>
-                    </div>                    
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {% if contatos.paginator.num_pages > 1 %}
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            {% if contatos.has_previous %}
-                <li class="page-item">
-                    <a href="?pagina=1" class="page-link">&laquo; Início</a>
-                </li>
-                <li class="page-item">
-                    <a href="?pagina={{ contatos.previous_page_number }}" class="page-link">Anterior</a>
-                </li>
-            {% endif %}
-    
-            <li class="page-item disabled">
-                <a class="page-link">
-                    Página {{ contatos.number }} de {{ contatos.paginator.num_pages }}
-                </a>
-            </li>
-    
-            {% if contatos.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?pagina={{ contatos.next_page_number }}">Próxima</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?pagina={{ contatos.paginator.num_pages }}">Última &raquo;</a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+<div id="contatos-partial">
+    {% include 'sistemaFFA/partials/_contatos.html' %}
 </div>
-
 
 <!-- Barra lateral (offcanvas) -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContato" aria-labelledby="offcanvasContatoLabel">
@@ -146,5 +57,36 @@
         </form>
     </div>
 </div>
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#btn-contato .btn-custom").on('click', function () {
+            var tipo_nome = $(this).data("nome"); // Pega o nome do tipo do botão clicado
+        
+            $.ajax({
+                type: 'GET',
+                url: '{% url "sistemaFFA:filtrar_contatos" %}',
+                data: {
+                    'tipo_nome': tipo_nome,
+                },
+                datatype: 'json',
+                success: function (data) {
+                    if (data.status === 'success') {
+                        // Atualiza o conteúdo da div #categorias-partial com o HTML retornado
+                        $("#contatos-partial").html(data.html);
+                    } else {
+                        // Exibe uma mensagem de erro
+                        $("#contatos-partial").html("<p>Erro ao aplicar o filtro.</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Trata erros de requisição
+                    $("#contatos-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
+                }
+            });
+        });
+    </script>
+{% endblock script %}
 
 {% endblock content %}

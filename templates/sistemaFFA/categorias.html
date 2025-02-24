@@ -4,14 +4,13 @@
 {% block head %}<div class="header fw-semibold">Categorias</div>{% endblock head %}
 {% block content %}
 
-<div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
-    <button type="button" id="meu-botao" class="btn btn-custom active" data-category="todos" data-url="/filtrar/">Todos</button>
-    <button type="button" id="meu-botao" class="btn btn-custom" data-category="fixas" data-url="/filtrar/">Fixas</button>
-    <button type="button" id="meu-botao" class="btn btn-custom" data-category="variaveis" data-url="/filtrar/">Variávies</button>
-    <button type="button" id="meu-botao"class="btn btn-custom" data-category="impostos" data-url="/filtrar/">Impostos</button>
-    <button type="button" id="meu-botao" class="btn btn-custom" data-category="rendimentos" data-url="/filtrar/">Rendimentos</button>
+<div class="d-flex flex-wrap justify-content-center gap-2 mt-2" id="btn-categoria">
+    {% for tipo in tipos %}
+        <button id="{{ tipo.id }}" class="btn btn-custom" data-nome="{{ tipo.nome }}">
+            {{ tipo.nome }}
+        </button>
+    {% endfor %}
 </div>
-
 
 <div class="mt-4">
     <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias" aria-controls="offcanvasCategorias">
@@ -23,7 +22,6 @@
 <div id="categorias-partial">
     {% include 'sistemaFFA/partials/_categorias.html' %}
 </div>
-
 
 <!-- Barra lateral de nova categoria -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCategorias" aria-labelledby="offcanvasCategoriasLabel">
@@ -38,5 +36,36 @@
         </form>
     </div>
 </div>
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#btn-categoria .btn-custom").on('click', function () {
+            var tipo_nome = $(this).data("nome"); // Pega o nome do tipo do botão clicado
+        
+            $.ajax({
+                type: 'GET',
+                url: '{% url "sistemaFFA:filtrar_categorias" %}',
+                data: {
+                    'tipo_nome': tipo_nome,
+                },
+                datatype: 'json',
+                success: function (data) {
+                    if (data.status === 'success') {
+                        // Atualiza o conteúdo da div #categorias-partial com o HTML retornado
+                        $("#categorias-partial").html(data.html);
+                    } else {
+                        // Exibe uma mensagem de erro
+                        $("#categorias-partial").html("<p>Erro ao aplicar o filtro.</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Trata erros de requisição
+                    $("#categorias-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
+                }
+            });
+        });
+    </script>
+{% endblock script %}
 
 {% endblock content %}

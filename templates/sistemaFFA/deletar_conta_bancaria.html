@@ -14,7 +14,7 @@
             {% csrf_token %}
             <div class="mt-4">
                 <button class="btn btn-danger text-uppercase btn-lg me-3" id="submitButton" type="submit">Sim</button>
-                <a href="{% url 'conta_bancaria' %}" class="btn btn-dark text-uppercase btn-lg">Não</a>
+                <a href="{% url 'sistemaFFA:conta_bancaria' %}" class="btn btn-dark text-uppercase btn-lg">Não</a>
             </div>
         </form>
     </div>

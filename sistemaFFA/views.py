@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
-from .models import Transacao, Contato, Categoria, ContaBancaria
+from .models import Transacao, Contato, Categoria, ContaBancaria, TipoCategoria, TipoContato
 from .forms import TransacaoForm, ContatoForm, CategoriaForm, ContaBancariaForm
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
 
 def base(request):
     return render(request, "sistemaFFA/base.html")
@@ -105,10 +106,26 @@ def contatos(request):
 
     context = {
         "form": form,
-        "contatos": contatos_paginados
+        "contatos": contatos_paginados,
+        "tipos": TipoContato.objects.all()
     }
     
     return render(request, "sistemaFFA/contatos.html", context)
+
+def filtrar_contatos(request):
+    tipo_nome = request.GET.get('tipo_nome')  # Pega o tipo_nome da requisição
+
+    if tipo_nome == "Todos":
+        contatos_filtrados = Contato.objects.all()
+    else:
+        contatos_filtrados = Contato.objects.filter(tipo__nome=tipo_nome)
+
+    # Inclua 'tipo__nome' para obter o nome do tipo
+    contatos_filtrados = list(contatos_filtrados.values('id', 'nome', 'tipo__nome', 'data'))
+
+    html = render_to_string('sistemaFFA/partials/_contatos.html', {'contatos': contatos_filtrados})
+    context = {'status': 'success', 'html': html}
+    return JsonResponse(context)
 
 @login_required
 def editar_contato(request, contato_id):
@@ -162,23 +179,26 @@ def categorias(request):
 
     context = {
         "form": form,
-        "categorias": categorias_paginadas
+        "categorias": categorias_paginadas,
+        "tipos": TipoCategoria.objects.all()
     }
 
     return render(request, "sistemaFFA/categorias.html", context)
 
 def filtrar_categorias(request):
-    if request.method == 'GET' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        category = request.GET.get('category')
+    tipo_nome = request.GET.get('tipo_nome')  # Pega o tipo_nome da requisição
 
-        if category == 'todos':
-            categorias = Categoria.objects.all()
-        else:
-            categorias = Categoria.objects.filter(tipo=category)
+    if tipo_nome == "Todas":
+        categorias_filtradas = Categoria.objects.all()
+    else:
+        categorias_filtradas = Categoria.objects.filter(tipo__nome=tipo_nome)
 
-        return render(request, 'sistemaFFA/partials/_categorias.html', {'categorias': categorias})
-    
-    return JsonResponse({'error': 'Requisição inválida'}, status=400)
+    # Inclua 'tipo__nome' para obter o nome do tipo
+    categorias_filtradas = list(categorias_filtradas.values('id', 'nome', 'tipo__nome', 'data'))
+
+    html = render_to_string('sistemaFFA/partials/_categorias.html', {'categorias': categorias_filtradas})
+    context = {'status': 'success', 'html': html}
+    return JsonResponse(context)
 
 @login_required
 def editar_categoria(request, categoria_id):

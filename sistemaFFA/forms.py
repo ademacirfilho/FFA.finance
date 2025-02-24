@@ -85,6 +85,10 @@ class ContatoForm(forms.ModelForm):
                 css_class='row'
             ),
             Row(
+                Column('telefone', css_class='col-12 form-label'),
+                css_class='row'
+            ),
+            Row(
                 Column('data', css_class='col-12 form-label'),
                 css_class='row'
             ),
