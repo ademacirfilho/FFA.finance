@@ -17,4 +17,4 @@ O **FFA .finance** é um gerenciador de finanças microempresariais, desenvolvid
 ## Integrantes do Projeto  
 - **Ademacir Filho**  
 - **Francisco Cledson**  
-- **Francisco Guilherme** 
+- **Francisco Guilherme**

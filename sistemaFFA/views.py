@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
 from .models import Transacao, Contato, Categoria, ContaBancaria
@@ -166,6 +167,18 @@ def categorias(request):
 
     return render(request, "sistemaFFA/categorias.html", context)
 
+def filtrar_categorias(request):
+    if request.method == 'GET' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        category = request.GET.get('category')
+
+        if category == 'todos':
+            categorias = Categoria.objects.all()
+        else:
+            categorias = Categoria.objects.filter(tipo=category)
+
+        return render(request, 'sistemaFFA/partials/_categorias.html', {'categorias': categorias})
+    
+    return JsonResponse({'error': 'Requisição inválida'}, status=400)
 
 @login_required
 def editar_categoria(request, categoria_id):

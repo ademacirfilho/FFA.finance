@@ -25,15 +25,16 @@ class Contato(models.Model):
    def __str__(self):
       return self.nome
 
-class TipoCategoria(models.Model):
-   nome = models.CharField(max_length=30)
-
-   def __str__(self):
-      return self.nome
-
 class Categoria(models.Model):
+   TIPOS_CATEGORIAS = [
+        ('fixa', 'Fixa'),
+        ('variavel', 'Variável'),
+        ('imposto', 'Imposto'),
+        ('rendimento', 'Rendimento'),
+    ]
+
    nome = models.CharField(max_length=100) 
-   tipo = models.ForeignKey(TipoCategoria, on_delete=models.CASCADE) 
+   tipo = models.CharField(max_length=20, choices=TIPOS_CATEGORIAS)
    data = models.DateField()
    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 

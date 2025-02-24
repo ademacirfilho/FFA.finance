@@ -20,6 +20,7 @@ urlpatterns = [
          views.deletar_contato, 
          name="deletar_contato"),
     path("categorias/", views.categorias, name="categorias"),
+    path('filtrar/', views.filtrar_categorias, name='filtrar_categorias'),
     path("categorias/<int:categoria_id>/editar/", 
          views.editar_categoria, 
          name="editar_categoria"),
