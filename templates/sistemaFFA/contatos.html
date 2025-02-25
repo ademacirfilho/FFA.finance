@@ -61,30 +61,40 @@
 {% block script %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $("#btn-contato .btn-custom").on('click', function () {
-            var tipo_nome = $(this).data("nome"); // Pega o nome do tipo do botão clicado
-        
+        function loadContatos(tipo_nome, pagina) {
             $.ajax({
                 type: 'GET',
                 url: '{% url "sistemaFFA:filtrar_contatos" %}',
                 data: {
                     'tipo_nome': tipo_nome,
+                    'pagina': pagina
                 },
                 datatype: 'json',
                 success: function (data) {
                     if (data.status === 'success') {
-                        // Atualiza o conteúdo da div #categorias-partial com o HTML retornado
                         $("#contatos-partial").html(data.html);
+                        $("#btn-contato .btn-custom").removeClass('active');
+                        $("#btn-contato .btn-custom[data-nome='" + data.tipo_nome + "']").addClass('active');
                     } else {
-                        // Exibe uma mensagem de erro
                         $("#contatos-partial").html("<p>Erro ao aplicar o filtro.</p>");
                     }
                 },
                 error: function (xhr, status, error) {
-                    // Trata erros de requisição
                     $("#contatos-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
                 }
             });
+        }
+
+        $("#btn-contato .btn-custom").on('click', function () {
+            var tipo_nome = $(this).data("nome");
+            loadContatos(tipo_nome, 1);
+        });
+
+        $(document).on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            var tipo_nome = $("#btn-contato .btn-custom.active").data("nome") || "Todos";
+            var pagina = $(this).attr('href').split('pagina=')[1];
+            loadContatos(tipo_nome, pagina);
         });
     </script>
 {% endblock script %}

@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
-from .models import Transacao, Contato, Categoria, ContaBancaria, TipoCategoria, TipoContato
+from .models import Transacao, Contato, Categoria, ContaBancaria, TipoCategoria, TipoContato, TipoTransacao
 from .forms import TransacaoForm, ContatoForm, CategoriaForm, ContaBancariaForm
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 def base(request):
     return render(request, "sistemaFFA/base.html")
@@ -27,32 +27,48 @@ def index(request):
 
 @login_required
 def transacoes(request):
-    usuario_atual = request.user  # Obtém o usuário logado
+    usuario_atual = request.user
 
     if request.method == "POST":
         form = TransacaoForm(request.POST)
         if form.is_valid():
-            transacao = form.save(commit=False)  # Não salva no banco ainda
-            transacao.user = usuario_atual  # Define o usuário logado
+            transacao = form.save(commit=False) 
+            transacao.user = usuario_atual
             transacao.save()
             return redirect('sistemaFFA:transacoes')
     else:
-        form = TransacaoForm()  # Criar o formulário corretamente
+        form = TransacaoForm()
 
-    # 🔹 Busca todas as transações do usuário no banco de dados
     transacoes_usuario = Transacao.objects.filter(user=usuario_atual)
 
-    # 🔹 Configura a paginação (3 transações por página)
     paginator = Paginator(transacoes_usuario, 3)
     numero_pagina = request.GET.get('pagina')
     transacoes_paginadas = paginator.get_page(numero_pagina)
 
     context = {
         "form": form,
-        "transacoes": transacoes_paginadas,  # 🔹 Agora realmente está pegando os dados do banco!
+        "transacoes": transacoes_paginadas,
+        "tipos": TipoTransacao.objects.all()
     }
 
     return render(request, 'sistemaFFA/transacoes.html', context)
+
+@login_required
+def filtrar_transacoes(request):
+    tipo_nome = request.GET.get('tipo_nome')
+    numero_pagina = request.GET.get('pagina', 1)
+
+    if tipo_nome == "Todas":
+        transacoes_filtradas = Transacao.objects.all()
+    else:
+        transacoes_filtradas = Transacao.objects.filter(tipo__nome=tipo_nome)
+
+    paginator = Paginator(transacoes_filtradas, 3)
+    transacoes_paginadas = paginator.get_page(numero_pagina)
+
+    html = render_to_string('sistemaFFA/partials/_transacoes.html', {'transacoes': transacoes_paginadas})
+    context = {'status': 'success', 'html': html, 'tipo_nome': tipo_nome}
+    return JsonResponse(context)
 
 @login_required
 def editar_transacao(request, transacao_id):
@@ -112,19 +128,21 @@ def contatos(request):
     
     return render(request, "sistemaFFA/contatos.html", context)
 
+@login_required
 def filtrar_contatos(request):
-    tipo_nome = request.GET.get('tipo_nome')  # Pega o tipo_nome da requisição
+    tipo_nome = request.GET.get('tipo_nome')
+    numero_pagina = request.GET.get('pagina', 1)
 
     if tipo_nome == "Todos":
         contatos_filtrados = Contato.objects.all()
     else:
         contatos_filtrados = Contato.objects.filter(tipo__nome=tipo_nome)
 
-    # Inclua 'tipo__nome' para obter o nome do tipo
-    contatos_filtrados = list(contatos_filtrados.values('id', 'nome', 'tipo__nome', 'data'))
+    paginator = Paginator(contatos_filtrados, 3)
+    contatos_paginados = paginator.get_page(numero_pagina)
 
-    html = render_to_string('sistemaFFA/partials/_contatos.html', {'contatos': contatos_filtrados})
-    context = {'status': 'success', 'html': html}
+    html = render_to_string('sistemaFFA/partials/_contatos.html', {'contatos': contatos_paginados})
+    context = {'status': 'success', 'html': html, 'tipo_nome': tipo_nome}
     return JsonResponse(context)
 
 @login_required
@@ -185,19 +203,21 @@ def categorias(request):
 
     return render(request, "sistemaFFA/categorias.html", context)
 
+@login_required
 def filtrar_categorias(request):
-    tipo_nome = request.GET.get('tipo_nome')  # Pega o tipo_nome da requisição
+    tipo_nome = request.GET.get('tipo_nome')
+    numero_pagina = request.GET.get('pagina', 1)
 
     if tipo_nome == "Todas":
         categorias_filtradas = Categoria.objects.all()
     else:
         categorias_filtradas = Categoria.objects.filter(tipo__nome=tipo_nome)
 
-    # Inclua 'tipo__nome' para obter o nome do tipo
-    categorias_filtradas = list(categorias_filtradas.values('id', 'nome', 'tipo__nome', 'data'))
+    paginator = Paginator(categorias_filtradas, 5)
+    categorias_paginadas = paginator.get_page(numero_pagina)
 
-    html = render_to_string('sistemaFFA/partials/_categorias.html', {'categorias': categorias_filtradas})
-    context = {'status': 'success', 'html': html}
+    html = render_to_string('sistemaFFA/partials/_categorias.html', {'categorias': categorias_paginadas})
+    context = {'status': 'success', 'html': html, 'tipo_nome': tipo_nome}
     return JsonResponse(context)
 
 @login_required

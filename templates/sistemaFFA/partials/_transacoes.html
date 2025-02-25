@@ -1,0 +1,73 @@
+<div class="transaction-table mt-4">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Pago a</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Tipo pagamento</th>
+                <th>Pago?</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transacao in transacoes %}
+            <tr>
+                <td>{{ transacao.descricao }}</td>
+                <td>{{ transacao.contatoNome }}</td>
+                <td>{{ transacao.categoriaNome }}</td>
+                <td>R$ {{ transacao.valor }}</td>
+                <td>{{ transacao.tipoPagamento }}</td>
+                <td><input type="checkbox" {% if transacao.pago %}checked{% endif %}></td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a href="{% url 'sistemaFFA:editar_transacao' transacao.id %}" class="text-decoration-none">
+                                <button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button>
+                            </a>
+                            <li>
+                                <a href="{% url 'sistemaFFA:deletar_transacao' transacao.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
+                            </li>
+                        </ul>
+                    </div>                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if transacoes.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            {% if transacoes.has_previous %}
+                <li class="page-item">
+                    <a href="?pagina=1" class="page-link">&laquo; Início</a>
+                </li>
+                <li class="page-item">
+                    <a href="?pagina={{ transacoes.previous_page_number }}" class="page-link">Anterior</a>
+                </li>
+            {% endif %}
+    
+            <li class="page-item disabled">
+                <a class="page-link">
+                    Página {{ transacoes.number }} de {{ transacoes.paginator.num_pages }}
+                </a>
+            </li>
+    
+            {% if transacoes.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{ transacoes.next_page_number }}">Próxima</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{ transacoes.paginator.num_pages }}">Última &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>

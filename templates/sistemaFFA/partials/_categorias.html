@@ -13,7 +13,7 @@
             {% for categoria in categorias %}
             <tr>
                 <td>{{ categoria.nome }}</td>
-                <td class="text-end">{{ categoria.tipo__nome }}</td>
+                <td class="text-end">{{ categoria.tipo.nome }}</td>
                 <td class="text-end">{{ categoria.data }}</td>
                 <td>
                     <div class="dropdown">

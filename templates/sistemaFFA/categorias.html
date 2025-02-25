@@ -40,30 +40,40 @@
 {% block script %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $("#btn-categoria .btn-custom").on('click', function () {
-            var tipo_nome = $(this).data("nome"); // Pega o nome do tipo do botão clicado
-        
+        function loadCategorias(tipo_nome, pagina) {
             $.ajax({
                 type: 'GET',
                 url: '{% url "sistemaFFA:filtrar_categorias" %}',
                 data: {
                     'tipo_nome': tipo_nome,
+                    'pagina': pagina
                 },
                 datatype: 'json',
                 success: function (data) {
                     if (data.status === 'success') {
-                        // Atualiza o conteúdo da div #categorias-partial com o HTML retornado
                         $("#categorias-partial").html(data.html);
+                        $("#btn-categoria .btn-custom").removeClass('active');
+                        $("#btn-categoria .btn-custom[data-nome='" + data.tipo_nome + "']").addClass('active');
                     } else {
-                        // Exibe uma mensagem de erro
                         $("#categorias-partial").html("<p>Erro ao aplicar o filtro.</p>");
                     }
                 },
                 error: function (xhr, status, error) {
-                    // Trata erros de requisição
                     $("#categorias-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
                 }
             });
+        }
+
+        $("#btn-categoria .btn-custom").on('click', function () {
+            var tipo_nome = $(this).data("nome");
+            loadCategorias(tipo_nome, 1);
+        });
+
+        $(document).on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            var tipo_nome = $("#btn-categoria .btn-custom.active").data("nome") || "Todas";
+            var pagina = $(this).attr('href').split('pagina=')[1];
+            loadCategorias(tipo_nome, pagina);
         });
     </script>
 {% endblock script %}

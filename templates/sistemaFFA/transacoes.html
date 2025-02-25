@@ -24,14 +24,12 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
-            <button type="button" class="btn btn-custom active">Todos</button>
-            <button type="button" class="btn btn-custom">Associados</button>
-            <button type="button" class="btn btn-custom">Cliente</button>
-            <button type="button" class="btn btn-custom">Colaborador</button>
-            <button type="button" class="btn btn-custom">Fornecedor</button>
-            <button type="button" class="btn btn-custom">Sócio</button>
-            <button type="button" class="btn btn-custom">Outro</button>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-2" id="btn-transacao">
+            {% for tipo in tipos %}
+                <button class="btn btn-custom" data-nome="{{ tipo.nome }}" id="{{ tipo.id }}">
+                    {{ tipo.nome }}
+                </button>
+            {% endfor %}
         </div>
 
         <div class="mt-4">
@@ -48,91 +46,63 @@
     </div>
 </div>
 
-<div class="transaction-table mt-4">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Pago a</th>
-                <th>Categoria</th>
-                <th>Valor</th>
-                <th>Tipo pagamento</th>
-                <th>Pago?</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for transacao in transacoes %}
-            <tr>
-                <td>{{ transacao.descricao }}</td>
-                <td>{{ transacao.contatoNome }}</td>
-                <td>{{ transacao.categoriaNome }}</td>
-                <td>R$ {{ transacao.valor }}</td>
-                <td>{{ transacao.tipoPagamento }}</td>
-                <td><input type="checkbox" {% if transacao.pago %}checked{% endif %}></td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-three-dots"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a href="{% url 'sistemaFFA:editar_transacao' transacao.id %}" class="text-decoration-none">
-                                <button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button>
-                            </a>
-                            <li>
-                                <a href="{% url 'sistemaFFA:deletar_transacao' transacao.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
-                            </li>
-                        </ul>
-                    </div>                    
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {% if transacoes.paginator.num_pages > 1 %}
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            {% if transacoes.has_previous %}
-                <li class="page-item">
-                    <a href="?pagina=1" class="page-link">&laquo; Início</a>
-                </li>
-                <li class="page-item">
-                    <a href="?pagina={{ transacoes.previous_page_number }}" class="page-link">Anterior</a>
-                </li>
-            {% endif %}
-    
-            <li class="page-item disabled">
-                <a class="page-link">
-                    Página {{ transacoes.number }} de {{ transacoes.paginator.num_pages }}
-                </a>
-            </li>
-    
-            {% if transacoes.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?pagina={{ transacoes.next_page_number }}">Próxima</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?pagina={{ transacoes.paginator.num_pages }}">Última &raquo;</a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
-</div>
-
-<!-- Barra lateral de nova categoria -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTransacao" aria-labelledby="offcanvasTransacaoLabel">
-<div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasCategoriasLabel">Nova Transação</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-</div>
-<div class="offcanvas-body">
-    <form id="transacaoForm" method="POST">
-        {% csrf_token %}
-        {% crispy form %}
-    </form>
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasCategoriasLabel">Nova Transação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form id="transacaoForm" method="POST">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </div>
 </div>
 
+<div id="transacoes-partial">
+    {% include 'sistemaFFA/partials/_transacoes.html' %}
+</div>
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function loadTransacoes(tipo_nome, pagina) {
+            $.ajax({
+                type: 'GET',
+                url: '{% url "sistemaFFA:filtrar_transacoes" %}',
+                data: {
+                    'tipo_nome': tipo_nome,
+                    'pagina': pagina
+                },
+                datatype: 'json',
+                success: function (data) {
+                    if (data.status === 'success') {
+                        $("#transacoes-partial").html(data.html);
+                        $("#btn-transacao .btn-custom").removeClass('active');
+                        $("#btn-transacao .btn-custom[data-nome='" + data.tipo_nome + "']").addClass('active');
+                    } else {
+                        $("#transacoes-partial").html("<p>Erro ao aplicar o filtro.</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $("#transacoes-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $("#btn-transacao .btn-custom").on('click', function () {
+                var tipo_nome = $(this).data("nome");
+                loadTransacoes(tipo_nome, 1);
+            });
+
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var tipo_nome = $("#btn-transacao .btn-custom.active").data("nome") || "Todas";
+                var pagina = $(this).attr('href').split('pagina=')[1];
+                loadTransacoes(tipo_nome, pagina);
+            });
+        });
+    </script>
+{% endblock script %}
 {% endblock content %}
