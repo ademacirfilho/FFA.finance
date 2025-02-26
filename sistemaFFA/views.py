@@ -154,6 +154,9 @@ def contatos(request):
 
     contatos_usuario = Contato.objects.filter(user=usuario_atual)
 
+    deve_para_mim = Transacao.objects.filter(user=usuario_atual, tipo__nome='Receita').aggregate(Sum('valor'))['valor__sum'] or 0
+    eu_devo = Transacao.objects.filter(user=usuario_atual, tipo__nome='Despesa').aggregate(Sum('valor'))['valor__sum'] or 0
+
     paginator = Paginator(contatos_usuario, 3)
     numero_pagina = request.GET.get('pagina')
     contatos_paginados = paginator.get_page(numero_pagina)
@@ -161,6 +164,8 @@ def contatos(request):
     context = {
         "form": form,
         "contatos": contatos_paginados,
+        "deve_para_mim": deve_para_mim,
+        "eu_devo": eu_devo,
         "tipos": TipoContato.objects.all()
     }
     
