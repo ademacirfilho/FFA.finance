@@ -140,11 +140,27 @@ def filtrar_contatos(request):
         contatos_filtrados = Contato.objects.filter(tipo__nome=tipo_nome)
 
     paginator = Paginator(contatos_filtrados, 3)
+<<<<<<< HEAD
     contatos_paginados = paginator.get_page(numero_pagina)
 
     html = render_to_string('sistemaFFA/partials/_contatos.html', {'contatos': contatos_paginados})
     context = {'status': 'success', 'html': html, 'tipo_nome': tipo_nome}
     return JsonResponse(context)
+=======
+    numero_pagina = request.GET.get('pagina')
+    contatos_paginados = paginator.get_page(numero_pagina)
+
+    context = {
+        "contatos": contatos_paginados,
+        "tipo_nome": tipo_nome,
+    }
+
+    if request.is_ajax():
+        html = render_to_string('sistemaFFA/partials/_contatos.html', context)
+        return JsonResponse({'status': 'success', 'html': html})
+    else:
+        return render(request, "sistemaFFA/contatos.html", context)
+>>>>>>> f42edb9c2306cbbf7ca39885d6dee33fad66458b
 
 @login_required
 def editar_contato(request, contato_id):
@@ -217,9 +233,24 @@ def filtrar_categorias(request):
     paginator = Paginator(categorias_filtradas, 5)
     categorias_paginadas = paginator.get_page(numero_pagina)
 
+<<<<<<< HEAD
     html = render_to_string('sistemaFFA/partials/_categorias.html', {'categorias': categorias_paginadas})
     context = {'status': 'success', 'html': html, 'tipo_nome': tipo_nome}
     return JsonResponse(context)
+=======
+    paginator = Paginator(categorias_filtradas, 5)
+    numero_pagina = request.GET.get('pagina')
+    categorias_filtradas = paginator.get_page(numero_pagina)
+
+    # Inclua o tipo_nome no contexto para ser usado na paginação
+    context = {
+        'categorias': categorias_filtradas,
+        'tipo_nome': tipo_nome,
+    }
+
+    html = render_to_string('sistemaFFA/partials/_categorias.html', context)
+    return JsonResponse({'status': 'success', 'html': html})
+>>>>>>> f42edb9c2306cbbf7ca39885d6dee33fad66458b
 
 @login_required
 def editar_categoria(request, categoria_id):
