@@ -6,6 +6,8 @@ from .forms import TransacaoForm, ContatoForm, CategoriaForm, ContaBancariaForm
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.db.models import Sum
+from django.views.decorators.http import require_POST
 
 def base(request):
     return render(request, "sistemaFFA/base.html")
@@ -19,13 +21,17 @@ def index(request):
     paginator = Paginator(transacoes_usuario, 3)
     numero_pagina = request.GET.get('pagina')
     transacoes_paginadas = paginator.get_page(numero_pagina)
-    
+
+    receita = Transacao.objects.filter(user=usuario_atual, tipo__nome='Receita').aggregate(Sum('valor'))['valor__sum'] or 0
+    despesa = Transacao.objects.filter(user=usuario_atual, tipo__nome='Despesa').aggregate(Sum('valor'))['valor__sum'] or 0
+
     context = {
         "transacoes": transacoes_paginadas,
+        "receita": receita,
+        "despesa": despesa,
     }
 
     return render(request, "sistemaFFA/index.html", context)
-
 @login_required
 def transacoes(request):
     usuario_atual = request.user
@@ -33,7 +39,7 @@ def transacoes(request):
     if request.method == "POST":
         form = TransacaoForm(request.POST)
         if form.is_valid():
-            transacao = form.save(commit=False) 
+            transacao = form.save(commit=False)
             transacao.user = usuario_atual
             transacao.save()
             return redirect('sistemaFFA:transacoes')
@@ -46,13 +52,44 @@ def transacoes(request):
     numero_pagina = request.GET.get('pagina')
     transacoes_paginadas = paginator.get_page(numero_pagina)
 
+    receita = Transacao.objects.filter(user=usuario_atual, tipo__nome='Receita').aggregate(Sum('valor'))['valor__sum'] or 0
+    despesa = Transacao.objects.filter(user=usuario_atual, tipo__nome='Despesa').aggregate(Sum('valor'))['valor__sum'] or 0
+    previsto = receita - despesa
+
     context = {
         "form": form,
         "transacoes": transacoes_paginadas,
-        "tipos": TipoTransacao.objects.all()
+        "tipos": TipoTransacao.objects.all(),
+        "receita": receita,
+        "despesa": despesa,
+        "previsto": previsto,
     }
 
     return render(request, 'sistemaFFA/transacoes.html', context)
+
+@login_required
+@require_POST
+def criar_transacao_ajax(request):
+    usuario_atual = request.user
+    form = TransacaoForm(request.POST)
+    if form.is_valid():
+        transacao = form.save(commit=False)
+        transacao.user = usuario_atual
+        transacao.save()
+        
+        receita = Transacao.objects.filter(user=usuario_atual, tipo__nome='Receita').aggregate(Sum('valor'))['valor__sum'] or 0
+        despesa = Transacao.objects.filter(user=usuario_atual, tipo__nome='Despesa').aggregate(Sum('valor'))['valor__sum'] or 0
+        previsto = receita - despesa
+
+        context = {
+            'status': 'success',
+            'receita': receita,
+            'despesa': despesa,
+            'previsto': previsto,
+        }
+        return JsonResponse(context)
+    else:
+        return JsonResponse({'status': 'error', 'errors': form.errors})
 
 @login_required
 def filtrar_transacoes(request):

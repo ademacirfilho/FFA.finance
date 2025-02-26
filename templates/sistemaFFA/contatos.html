@@ -5,7 +5,6 @@
 {% block content %}
 
 <div class="row mt-4">
-    <!-- Cartão "Deve para mim" -->
     <div class="col-md-6">
         <div class="card text-center border-0 shadow-sm">
             <div class="card-body" style="padding: 10px;">
@@ -14,7 +13,7 @@
             </div>
         </div>
     </div>
-    <!-- Cartão "Eu devo" -->
+
     <div class="col-md-6">
         <div class="card text-center border-0 shadow-sm">
             <div class="card-body" style="padding: 10px;">
@@ -33,7 +32,6 @@
     {% endfor %}
 </div>
 
-<!-- Botão para abrir a barra lateral -->
 <div class="mt-4">
     <button class="btn btn-outline-dark btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContato">
         <i class="bi bi-plus-lg"></i> Novo Contato
@@ -44,7 +42,6 @@
     {% include 'sistemaFFA/partials/_contatos.html' %}
 </div>
 
-<!-- Barra lateral (offcanvas) -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContato" aria-labelledby="offcanvasContatoLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasContatoLabel">Novo Contato</h5>
