@@ -104,6 +104,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Autenticação
+AUTH_USER_MODEL = "usuarios.User"
+
+LOGOUT_REDIRECT_URL = "paginaInicial:index"
+LOGIN_REDIRECT_URL = "sistemaFFA:index"
+
+# Recuperacao de senha
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ffafinance55@gmail.com'
+EMAIL_HOST_PASSWORD = 'xmqt plfq hbxy ridf'  
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_SUBJECT_PREFIX = 'FFA .finance'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -133,8 +151,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-AUTH_USER_MODEL = "usuarios.User"
-
-LOGOUT_REDIRECT_URL = "paginaInicial:index"
-LOGIN_REDIRECT_URL = "sistemaFFA:index"

@@ -12,16 +12,17 @@ def base(request):
 
 @login_required
 def index(request):
-    context = {
-        "transacoes": Transacao.objects.all(),
-    }
+    usuario_atual = request.user
 
-    paginator = Paginator(Transacao.objects.all(), 5)
+    transacoes_usuario = Transacao.objects.filter(user=usuario_atual)
+
+    paginator = Paginator(transacoes_usuario, 3)
     numero_pagina = request.GET.get('pagina')
     transacoes_paginadas = paginator.get_page(numero_pagina)
-
-    context["transacoes"] = transacoes_paginadas
-
+    
+    context = {
+        "transacoes": transacoes_paginadas,
+    }
 
     return render(request, "sistemaFFA/index.html", context)
 

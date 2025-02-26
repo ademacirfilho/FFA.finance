@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<!-- Form Section -->
 <div class="col-lg-6">
     <div class="card shadow">
         <div class="card-body p-4 p-md-5">
@@ -15,6 +14,9 @@
 
                 <div class="text-center">
                     <p class="mb-2">Não tem uma conta? <a href="{% url 'usuarios:cadastro' %}">Cadastre-se</a></p>
+                </div>
+                <div class="text-center">
+                    <p class="mb-2">Esqueceu a senha? <a href="{% url 'usuarios:password_reset' %}">Crie uma nova</a></p>
                 </div>
             </form>
         </div>
