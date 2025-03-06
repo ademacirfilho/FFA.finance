@@ -26,33 +26,26 @@ O **FFA .finance** é um gerenciador de finanças microempresariais, desenvolvid
 
 Siga as instruções abaixo para configurar o ambiente do projeto após clonar o repositório.
 
-### 1. Clonando o Repositório
-
-```bash
-git clone <URL_DO_REPOSITORIO>  
-cd ffa_finance  
-```
-
-### 2. Criando e Ativando o Ambiente Virtual
+### 1. Criando e Ativando o Ambiente Virtual
 
 ```bash
 python -m venv venv  
 venv\Scripts\Activate.ps1
 ```
 
-### 3. Instalando as Dependências
+### 2. Instalando as Dependências
 
 ```bash
 pip install -r requirements.txt  
 ```
 
-### 4. Aplicando as Migrações
+### 3. Aplicando as Migrações
 
 ```bash
 python manage.py migrate  
 ```
 
-### 5. Criando um Superusuário
+### 4. Criando um Superusuário
 
 ```bash
 python manage.py createsuperuser  
@@ -60,13 +53,13 @@ python manage.py createsuperuser
 
 Siga as instruções e defina um nome de usuário, e-mail e senha.
 
-### 6. Executando o Servidor
+### 5. Executando o Servidor
 
 ```bash
 python manage.py runserver  
 ```
 
-### 7. Acessando o Django Admin
+### 6. Acessando o Django Admin
 
 Abra o navegador e acesse:
 
@@ -76,7 +69,7 @@ http://127.0.0.1:8000/admin/
 
 Faça login com o superusuário criado anteriormente.
 
-### 8. Adicionando Dados Iniciais no Admin
+### 7. Adicionando Dados Iniciais no Admin
 
 Após acessar o Django Admin, adicione os seguintes registros nas respectivas categorias:
 
