@@ -1,0 +1,26 @@
+<form id="categoriaDeleteForm" method="POST">
+    {% csrf_token %}
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+    <button type="submit" class="btn btn-danger categoriaButton" data-url="{% url 'sistemaFFA:ajax_excluir_categoria' categoria.id %}">Excluir</button>
+</form>
+
+<script>
+    $("#categoriaDeleteForm").submit(function (event) {
+        event.preventDefault();
+        const button = $("#categoriaDeleteForm .categoriaButton")
+        const dataUrl = button.data("url");
+
+        $.ajax({
+            url: dataUrl,
+            method: "POST",
+            data: $(this).serialize(),
+            success: function (response) {
+                console.log("Resposta AJAX:", response);
+                if (response.status === "success") {
+                    $("#categoria-" + response.categoria_id).remove();
+                    $("#categoriaModal").modal("hide");
+                }
+            }
+        });
+    });
+</script>

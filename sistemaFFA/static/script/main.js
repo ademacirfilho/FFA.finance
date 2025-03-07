@@ -40,3 +40,16 @@ $(".excluirContato").click(function (event) {
         }
     });
 });
+
+$(".excluirCategoria").click(function (event) {
+    event.preventDefault();
+    const dataUrl = $(this).data("url");
+
+    $.ajax({
+        url: dataUrl,
+        method: "get",
+        success: (response) => {
+            $("#categoriaModal .modal-footer").html(response);
+        }
+    });
+});

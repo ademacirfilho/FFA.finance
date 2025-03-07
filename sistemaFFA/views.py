@@ -286,18 +286,19 @@ def editar_categoria(request, categoria_id):
 
     return render(request, "sistemaFFA/editar_categoria.html", context)
 
+def excluir_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+    return render(request, 'sistemaFFA/deletar_categoria.html', {'categoria': categoria})
+
 @login_required
-def deletar_categoria(request, categoria_id):
-    context = {
-        "categorias": get_object_or_404(Categoria, pk=categoria_id)
-    }
-
+def ajax_excluir_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
     if request.method == 'POST':
-        context["categorias"].delete()
-        return redirect('sistemaFFA:categorias')
-    else:
-        return render(request, "sistemaFFA/deletar_categoria.html", context)
+        categoria_id = categoria.id
+        categoria.delete()
+        return JsonResponse({'status': 'success', 'categoria_id': categoria_id})
 
+    return render(request, "sistemaFFA/partials/_deletar_categoria.html", {'categoria': categoria, 'status': 'error'})
 
 @login_required
 def conta_bancaria(request):
