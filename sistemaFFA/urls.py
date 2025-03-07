@@ -22,5 +22,6 @@ urlpatterns = [
     path("categoria/<int:categoria_id>/ajax/", views.ajax_excluir_categoria, name="ajax_excluir_categoria"),
     path("conta_bancaria/", views.conta_bancaria, name="conta_bancaria"),
     path("conta_bancaria/<int:conta_bancaria_id>/editar/", views.editar_conta_bancaria, name="editar_conta_bancaria"),
-    path("conta_bancaria/<int:conta_bancaria_id>/deletar/", views.deletar_conta_bancaria, name="deletar_conta_bancaria"),
+    path("conta_bancaria/<int:conta_bancaria_id>/deletar/", views.excluir_conta_bancaria, name="excluir_conta_bancaria"),
+    path("conta_bancaria/<int:conta_bancaria_id>/ajax/", views.ajax_excluir_conta_bancaria, name="ajax_excluir_conta_bancaria"),
 ]

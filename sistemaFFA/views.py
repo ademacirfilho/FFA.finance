@@ -345,14 +345,16 @@ def editar_conta_bancaria(request, conta_bancaria_id):
 
     return render(request, "sistemaFFA/editar_conta_bancaria.html", context)
 
-@login_required
-def deletar_conta_bancaria(request, conta_bancaria_id):
-    context = {
-        "contas_bancarias": get_object_or_404(ContaBancaria, pk=conta_bancaria_id)
-    }
+def excluir_conta_bancaria(request, conta_bancaria_id):
+    conta_bancaria = get_object_or_404(ContaBancaria, pk=conta_bancaria_id)
+    return render(request, 'sistemaFFA/deletar_conta_bancaria.html', {'conta_bancaria': conta_bancaria})
 
+@login_required
+def ajax_excluir_conta_bancaria(request, conta_bancaria_id):
+    conta_bancaria = get_object_or_404(ContaBancaria, pk=conta_bancaria_id)
     if request.method == 'POST':
-        context["contas_bancarias"].delete()
-        return redirect('sistemaFFA:conta_bancaria')
-    else:
-        return render(request, "sistemaFFA/deletar_conta_bancaria.html", context)
+        conta_bancaria_id = conta_bancaria.id
+        conta_bancaria.delete()
+        return JsonResponse({'status': 'success', 'conta_bancaria_id': conta_bancaria_id})
+
+    return render(request, "sistemaFFA/partials/_deletar_conta_bancaria.html", {'conta_bancaria': conta_bancaria, 'status': 'error'})

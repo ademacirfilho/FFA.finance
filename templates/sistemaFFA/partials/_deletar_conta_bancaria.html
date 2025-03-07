@@ -1,0 +1,26 @@
+<form id="contaBancariaDeleteForm" method="POST">
+    {% csrf_token %}
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+    <button type="submit" class="btn btn-danger contaBancariaButton" data-url="{% url 'sistemaFFA:ajax_excluir_conta_bancaria' conta_bancaria.id %}">Excluir</button>
+</form>
+
+<script>
+    $("#contaBancariaDeleteForm").submit(function (event) {
+        event.preventDefault();
+        const button = $("#contaBancariaDeleteForm .contaBancariaButton")
+        const dataUrl = button.data("url");
+
+        $.ajax({
+            url: dataUrl,
+            method: "POST",
+            data: $(this).serialize(),
+            success: function (response) {
+                console.log("Resposta AJAX:", response);
+                if (response.status === "success") {
+                    $("#conta_bancaria-" + response.conta_bancaria_id).remove();
+                    $("#contaBancariaModal").modal("hide");
+                }
+            }
+        });
+    });
+</script>

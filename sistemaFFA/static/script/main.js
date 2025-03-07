@@ -53,3 +53,16 @@ $(".excluirCategoria").click(function (event) {
         }
     });
 });
+
+$(".excluirContaBancaria").click(function (event) {
+    event.preventDefault();
+    const dataUrl = $(this).data("url");
+
+    $.ajax({
+        url: dataUrl,
+        method: "get",
+        success: (response) => {
+            $("#contaBancariaModal .modal-footer").html(response);
+        }
+    });
+});

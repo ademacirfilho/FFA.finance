@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         {% for conta_bancaria in contas_bancarias %}
-        <tr>
+        <tr id="conta_bancaria-{{ conta_bancaria.id }}">
             <td style="padding: 15px 10px;">{{ conta_bancaria.nome }}</td>
             <td style="padding: 15px 10px;">{{ conta_bancaria.tipoConta }}</td>
             <td style="padding: 15px 10px;">R$ {{ conta_bancaria.saldo }}</td>
@@ -36,10 +36,12 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                          <a href="{% url 'editar_conta_bancaria' conta_bancaria.id %}" class="text-decoration-none"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
+                          <a href="{% url 'sistemaFFA:editar_conta_bancaria' conta_bancaria.id %}" class="text-decoration-none"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
                         </li>
                         <li>
-                          <a href="{% url 'deletar_conta_bancaria' conta_bancaria.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
+                            <button data-url="{% url 'sistemaFFA:ajax_excluir_conta_bancaria' conta_bancaria.id %}" class="dropdown-item text-danger excluirContaBancaria" data-bs-toggle="modal" data-bs-target="#contaBancariaModal">
+                                <i class="bi bi-trash3"></i> Excluir
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -97,5 +99,21 @@
         {% crispy form %}
     </form>
   </div>
+</div>
+
+<div class="modal fade" id="contaBancariaModal" tabindex="-1" aria-labelledby="contaBancariaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Deletar Conta Bancária</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        Ao excluir esta Conta Bancária, todos os itens associados a ela serão removidos. Esta ação não pode ser desfeita.
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock content %}
