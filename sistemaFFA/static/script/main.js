@@ -14,3 +14,16 @@ $(document).ready(function () {
         $('#overlay-menu').css('display', 'none');
     });
 });
+
+$(".excluirTransacao").click(function (event) {
+    event.preventDefault();
+    const dataUrl = $(this).data("url");
+
+    $.ajax({
+        url: dataUrl,
+        method: "get",
+        success: (response) => {
+            $("#transacaoModal .modal-footer").html(response);
+        }
+    });
+});

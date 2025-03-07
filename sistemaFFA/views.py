@@ -18,7 +18,7 @@ def index(request):
 
     transacoes_usuario = Transacao.objects.filter(user=usuario_atual)
 
-    paginator = Paginator(transacoes_usuario, 3)
+    paginator = Paginator(transacoes_usuario, 6)
     numero_pagina = request.GET.get('pagina')
     transacoes_paginadas = paginator.get_page(numero_pagina)
 
@@ -32,6 +32,7 @@ def index(request):
     }
 
     return render(request, "sistemaFFA/index.html", context)
+
 @login_required
 def transacoes(request):
     usuario_atual = request.user
@@ -65,7 +66,7 @@ def transacoes(request):
         "previsto": previsto,
     }
 
-    return render(request, 'sistemaFFA/transacoes.html', context)
+    return render(request, 'sistemaFFA/transacoes.html', context) 
 
 @login_required
 @require_POST
@@ -126,17 +127,19 @@ def editar_transacao(request, transacao_id):
 
     return render(request, "sistemaFFA/editar_transacao.html", context)
 
-@login_required
-def deletar_transacao(request, transacao_id):
-    context = {
-        "transacoes": get_object_or_404(Transacao, pk=transacao_id)
-    }
+def excluir_transacao(request, transacao_id):
+    transacao = get_object_or_404(Transacao, pk=transacao_id)
+    return render(request, 'sistemaFFA/deletar_transacao.html', {'transacao': transacao})
 
+@login_required
+def ajax_excluir_transacao(request, transacao_id):
+    transacao = get_object_or_404(Transacao, pk=transacao_id)
     if request.method == 'POST':
-        context["transacoes"].delete()
-        return redirect('sistemaFFA:transacoes')
-    else:
-        return render(request, "sistemaFFA/deletar_transacao.html", context)
+        transacao_id = transacao.id
+        transacao.delete()
+        return JsonResponse({'status': 'success', 'transacao_id': transacao_id})
+
+    return render(request, "sistemaFFA/partials/_deletar_transacao.html", {'transacao': transacao, 'status': 'error'}) 
 
 @login_required
 def contatos(request):

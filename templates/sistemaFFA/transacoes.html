@@ -53,9 +53,30 @@
     {% include 'sistemaFFA/partials/_transacoes.html' %}
 </div>
 
+<div class="modal fade" id="transacaoModal" tabindex="-1" aria-labelledby="transacaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Deletar Transaçao</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        Ao excluir esta transação, todos os itens associados a ela serão removidos. Esta ação não pode ser desfeita.
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+</div>
+
 {% block script %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        $(document).ready(function () {
+            initTransacaoEvents();
+            initPaginationEvents();
+            initFormSubmitEvent();
+        });
+        
         function loadTransacoes(tipo_nome, pagina) {
             $.ajax({
                 type: 'GET',
@@ -67,54 +88,76 @@
                 datatype: 'json',
                 success: function (data) {
                     if (data.status === 'success') {
-                        $("#transacoes-partial").html(data.html);
-                        $("#btn-transacao .btn-custom").removeClass('active');
-                        $("#btn-transacao .btn-custom[data-nome='" + data.tipo_nome + "']").addClass('active');
+                        updateTransacoesPartial(data.html);
+                        updateActiveButton(data.tipo_nome);
                     } else {
-                        $("#transacoes-partial").html("<p>Erro ao aplicar o filtro.</p>");
+                        showError("#transacoes-partial", "Erro ao aplicar o filtro.");
                     }
                 },
-                error: function (xhr, status, error) {
-                    $("#transacoes-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
+                error: function () {
+                    showError("#transacoes-partial", "Ocorreu um erro ao processar a requisição.");
                 }
             });
         }
-
-        $(document).ready(function() {
+        
+        function updateTransacoesPartial(html) {
+            $("#transacoes-partial").html(html);
+        }
+        
+        function updateActiveButton(tipo_nome) {
+            $("#btn-transacao .btn-custom").removeClass('active');
+            $("#btn-transacao .btn-custom[data-nome='" + tipo_nome + "']").addClass('active');
+        }
+        
+        function showError(selector, message) {
+            $(selector).html("<p>" + message + "</p>");
+        }
+        
+        function initTransacaoEvents() {
             $("#btn-transacao .btn-custom").on('click', function () {
                 var tipo_nome = $(this).data("nome");
                 loadTransacoes(tipo_nome, 1);
             });
+        }
 
+        function initPaginationEvents() {
             $(document).on('click', '.pagination a', function (e) {
                 e.preventDefault();
                 var tipo_nome = $("#btn-transacao .btn-custom.active").data("nome") || "Todas";
                 var pagina = $(this).attr('href').split('pagina=')[1];
                 loadTransacoes(tipo_nome, pagina);
             });
-        });
-
-        $(document).ready(function() {
-            $('#transacao-form').on('submit', function(event) {
+        }
+        
+        function initFormSubmitEvent() {
+            $('#transacao-form').on('submit', function (event) {
                 event.preventDefault();
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            $('#receita').text('Receita: ' + response.receita);
-                            $('#despesa').text('Despesa: ' + response.despesa);
-                        } else {
-                            alert('Erro ao adicionar transação');
-                        }
-                    },
-                    error: function() {
+                submitTransacaoForm($(this));
+            });
+        }
+        
+        function submitTransacaoForm(form) {
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.status === 'success') {
+                        updateTotals(response.receita, response.despesa);
+                    } else {
                         alert('Erro ao adicionar transação');
                     }
-                });
+                },
+                error: function () {
+                    alert('Erro ao adicionar transação');
+                }
             });
-        });
+        }
+        
+        function updateTotals(receita, despesa) {
+            $('#receita').text('Receita: ' + receita);
+            $('#despesa').text('Despesa: ' + despesa);
+        }
     </script>
 {% endblock script %}
 {% endblock content %}
