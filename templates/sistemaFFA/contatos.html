@@ -72,8 +72,12 @@
 </div>
 
 {% block script %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        $(document).ready(function () {
+            initContatoEvents();
+            initPaginationEvents();
+        });
+        
         function loadContatos(tipo_nome, pagina) {
             $.ajax({
                 type: 'GET',
@@ -85,31 +89,47 @@
                 datatype: 'json',
                 success: function (data) {
                     if (data.status === 'success') {
-                        $("#contatos-partial").html(data.html);
-                        $("#btn-contato .btn-custom").removeClass('active');
-                        $("#btn-contato .btn-custom[data-nome='" + data.tipo_nome + "']").addClass('active');
+                        updateContatosPartial(data.html);
+                        updateActiveButtonContato(data.tipo_nome);
                     } else {
-                        $("#contatos-partial").html("<p>Erro ao aplicar o filtro.</p>");
+                        showError("#contatos-partial", "Erro ao aplicar o filtro.");
                     }
                 },
-                error: function (xhr, status, error) {
-                    $("#contatos-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
+                error: function () {
+                    showError("#contatos-partial", "Ocorreu um erro ao processar a requisição.");
                 }
             });
         }
-
-        $("#btn-contato .btn-custom").on('click', function () {
-            var tipo_nome = $(this).data("nome");
-            loadContatos(tipo_nome, 1);
-        });
-
-        $(document).on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            var tipo_nome = $("#btn-contato .btn-custom.active").data("nome") || "Todos";
-            var pagina = $(this).attr('href').split('pagina=')[1];
-            loadContatos(tipo_nome, pagina);
-        });
-
+        
+        function updateContatosPartial(html) {
+            $("#contatos-partial").html(html);
+        }
+        
+        function updateActiveButtonContato(tipo_nome) {
+            $("#btn-contato .btn-custom").removeClass('active');
+            $("#btn-contato .btn-custom[data-nome='" + tipo_nome + "']").addClass('active');
+        }
+        
+        function showError(selector, message) {
+            $(selector).html("<p>" + message + "</p>");
+        }
+        
+        function initContatoEvents() {
+            $("#btn-contato .btn-custom").on('click', function () {
+                var tipo_nome = $(this).data("nome");
+                loadContatos(tipo_nome, 1);
+            });
+        }
+        
+        function initPaginationEvents() {
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var tipo_nome = $("#btn-contato .btn-custom.active").data("nome") || "Todos";
+                var pagina = $(this).attr('href').split('pagina=')[1];
+                loadContatos(tipo_nome, pagina);
+            });
+        }
+        
         $(document).ready(function() {
             function loadPage(url) {
                 $.ajax({
@@ -125,7 +145,7 @@
                     }
                 });
             }
-
+        
             function attachPaginationEvents() {
                 $('.page-ajax').on('click', function(e) {
                     e.preventDefault();
@@ -133,7 +153,7 @@
                     loadPage(url);
                 });
             }
-
+        
             attachPaginationEvents();
         });
     </script>

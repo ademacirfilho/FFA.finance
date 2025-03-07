@@ -52,7 +52,6 @@
 </div>
 
 {% block script %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function loadCategorias(tipo_nome, pagina) {
             $.ajax({
@@ -65,29 +64,37 @@
                 datatype: 'json',
                 success: function (data) {
                     if (data.status === 'success') {
-                        $("#categorias-partial").html(data.html);
-                        $("#btn-categoria .btn-custom").removeClass('active');
-                        $("#btn-categoria .btn-custom[data-nome='" + data.tipo_nome + "']").addClass('active');
+                        updateCategoriasPartial(data.html);
+                        updateActiveButtonCategoria(data.tipo_nome);
                     } else {
-                        $("#categorias-partial").html("<p>Erro ao aplicar o filtro.</p>");
+                        showError("#categorias-partial", "Erro ao aplicar o filtro.");
                     }
                 },
-                error: function (xhr, status, error) {
-                    $("#categorias-partial").html("<p>Ocorreu um erro ao processar a requisição.</p>");
+                error: function () {
+                    showError("#categorias-partial", "Ocorreu um erro ao processar a requisição.");
                 }
             });
         }
-
-        $("#btn-categoria .btn-custom").on('click', function () {
-            var tipo_nome = $(this).data("nome");
-            loadCategorias(tipo_nome, 1);
-        });
-
-        $(document).on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            var tipo_nome = $("#btn-categoria .btn-custom.active").data("nome") || "Todas";
-            var pagina = $(this).attr('href').split('pagina=')[1];
-            loadCategorias(tipo_nome, pagina);
+        
+        function updateCategoriasPartial(html) {
+            $("#categorias-partial").html(html);
+        }
+        
+        function updateActiveButtonCategoria(tipo_nome) {
+            $("#btn-categoria .btn-custom").removeClass('active');
+            $("#btn-categoria .btn-custom[data-nome='" + tipo_nome + "']").addClass('active');
+        }
+        
+        function initCategoriaEvents() {
+            $("#btn-categoria .btn-custom").on('click', function () {
+                var tipo_nome = $(this).data("nome");
+                loadCategorias(tipo_nome, 1);
+            });
+        }
+        
+        $(document).ready(function () {
+            initCategoriaEvents();
+            initPaginationEvents();
         });
     </script>
 {% endblock script %}
