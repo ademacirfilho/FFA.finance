@@ -1,23 +1,10 @@
 {% extends "base.html" %}
-{% load static crispy_forms_tags %}
+{% load static %}
 
-{% block head %}<div class="header fw-semibold">Deletar Contato</div>{% endblock head %}
+{% block head %}
+<div class="header fw-semibold">Deletar Transação</div>
+{% endblock head %}
+
 {% block content %}
-
-<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
-    <div class="text-center">
-        <h1>Tem certeza? <i class="bi bi-exclamation-triangle-fill"></i></h1>
-        <p class="fs-4">
-            Ao excluir este contato, todos os itens associados a ele serão removidos. <br>Esta ação não pode ser desfeita.
-        </p>
-        <form id="contatoForm" method="POST">
-            {% csrf_token %}
-            <div class="mt-4">
-                <button class="btn btn-danger text-uppercase btn-lg me-3" id="submitButton" type="submit">Sim</button>
-                <a href="{% url 'sistemaFFA:contatos' %}" class="btn btn-dark text-uppercase btn-lg">Não</a>
-            </div>
-        </form>
-    </div>
-</div>
-
+    {% include "sistemaFFA/partials/_deletar_contato.html" %}
 {% endblock content %}

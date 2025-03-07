@@ -209,17 +209,19 @@ def editar_contato(request, contato_id):
 
     return render(request, "sistemaFFA/editar_contato.html", context)
 
-@login_required
-def deletar_contato(request, contato_id):
-    context = {
-        "contatos": get_object_or_404(Contato, pk=contato_id)
-    }
+def excluir_contato(request, contato_id):
+    contato = get_object_or_404(Contato, pk=contato_id)
+    return render(request, 'sistemaFFA/deletar_contato.html', {'contato': contato})
 
+@login_required
+def ajax_excluir_contato(request, contato_id):
+    contato = get_object_or_404(Contato, pk=contato_id)
     if request.method == 'POST':
-        context["contatos"].delete()
-        return redirect('sistemaFFA:contatos')
-    else:
-        return render(request, "sistemaFFA/deletar_contato.html", context)
+        contato_id = contato.id
+        contato.delete()
+        return JsonResponse({'status': 'success', 'contato_id': contato_id})
+
+    return render(request, "sistemaFFA/partials/_deletar_contato.html", {'contato': contato, 'status': 'error'})
 
 @login_required
 def categorias(request):

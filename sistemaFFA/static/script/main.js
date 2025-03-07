@@ -27,3 +27,16 @@ $(".excluirTransacao").click(function (event) {
         }
     });
 });
+
+$(".excluirContato").click(function (event) {
+    event.preventDefault();
+    const dataUrl = $(this).data("url");
+
+    $.ajax({
+        url: dataUrl,
+        method: "get",
+        success: (response) => {
+            $("#contatoModal .modal-footer").html(response);
+        }
+    });
+});

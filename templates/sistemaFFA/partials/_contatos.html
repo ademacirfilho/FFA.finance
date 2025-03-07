@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             {% for contato in contatos %}
-            <tr>
+            <tr id="contato-{{ contato.id }}">
                 <td>{{ contato.nome }}</td>
                 <td>{{ contato.cpf_cnpj|default:'---' }}</td>
                 <td>{{ contato.email|default:'---' }}</td>
@@ -29,7 +29,9 @@
                                 <a href="{% url 'sistemaFFA:editar_contato' contato.id %}" class="text-decoration-none"><button class="dropdown-item text-success"><i class="bi bi-pen"></i> Editar</button></a>
                             </li>
                             <li>
-                                <a href="{% url 'sistemaFFA:deletar_contato' contato.id %}" class="text-decoration-none"><button class="dropdown-item text-danger"><i class="bi bi-trash3"></i> Excluir</button></a>
+                                <button data-url="{% url 'sistemaFFA:ajax_excluir_contato' contato.id %}" class="dropdown-item text-danger excluirContato" data-bs-toggle="modal" data-bs-target="#contatoModal">
+                                    <i class="bi bi-trash3"></i> Excluir
+                                </button>
                             </li>
                         </ul>
                     </div>                    
